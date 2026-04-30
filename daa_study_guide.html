@@ -1,0 +1,2315 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>UCS415 — DAA Complete Study Guide</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=Lora:ital,wght@0,400;0,600;1,400&family=Source+Sans+3:wght@300;400;600;700&family=Outfit:wght@300;400;600;800&display=swap');
+
+  :root {
+    --bg: #f8f9fa;
+    --surface: #ffffff;
+    --border: #e9ecef;
+    --text: #1a1d23;
+    --muted: #64748b;
+    --accent: #2563eb;
+    --accent-light: #eff6ff;
+    --green: #10b981;
+    --green-light: #ecfdf5;
+    --red: #ef4444;
+    --red-light: #fef2f2;
+    --amber: #f59e0b;
+    --amber-light: #fffbeb;
+    --purple: #8b5cf6;
+    --purple-light: #f5f3ff;
+    --teal: #14b8a6;
+    --teal-light: #f0fdfa;
+    --sidebar-w: 280px;
+    --container-w: 900px;
+    --shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+    --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+    --glass: rgba(255, 255, 255, 0.8);
+    --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  [data-theme='dark'] {
+    --bg: #0f172a;
+    --surface: #1e293b;
+    --border: #334155;
+    --text: #f1f5f9;
+    --muted: #94a3b8;
+    --accent: #3b82f6;
+    --accent-light: rgba(59, 130, 246, 0.15);
+    --green: #10b981;
+    --green-light: rgba(16, 185, 129, 0.15);
+    --red: #f43f5e;
+    --red-light: rgba(244, 63, 94, 0.15);
+    --amber: #f59e0b;
+    --amber-light: rgba(245, 158, 11, 0.15);
+    --purple: #a78bfa;
+    --purple-light: rgba(167, 139, 250, 0.15);
+    --teal: #2dd4bf;
+    --teal-light: rgba(45, 212, 191, 0.15);
+    --glass: rgba(15, 23, 42, 0.8);
+    --shadow: 0 4px 6px -1px rgb(0 0 0 / 0.3), 0 2px 4px -2px rgb(0 0 0 / 0.3);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Source Sans 3', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    font-size: 16px;
+    line-height: 1.7;
+    transition: var(--transition);
+    overflow-x: hidden;
+  }
+
+  /* ── LAYOUT ── */
+  #app-container {
+    display: flex;
+    min-height: 100vh;
+  }
+
+  /* ── SIDEBAR ── */
+  #sidebar {
+    position: fixed;
+    top: 0; left: 0;
+    width: var(--sidebar-w);
+    height: 100vh;
+    background: var(--surface);
+    border-right: 1px solid var(--border);
+    overflow-y: auto;
+    z-index: 1000;
+    padding: 0;
+    transition: var(--transition);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+  }
+
+  #sidebar-header {
+    padding: 1.5rem;
+    border-bottom: 1px solid var(--border);
+    position: sticky;
+    top: 0;
+    background: var(--surface);
+    z-index: 10;
+  }
+
+  #sidebar-header .course { 
+    font-family: 'Outfit', sans-serif;
+    font-size: 10px; 
+    font-weight: 800; 
+    letter-spacing: 2px; 
+    color: var(--accent); 
+    text-transform: uppercase; 
+    margin-bottom: 0.5rem;
+  }
+  #sidebar-header .title { 
+    font-family: 'Outfit', sans-serif; 
+    font-size: 16px; 
+    font-weight: 600; 
+    color: var(--text); 
+    line-height: 1.3; 
+  }
+
+  .nav-section { padding: 1.5rem; }
+  .nav-section-label { 
+    font-family: 'Outfit', sans-serif;
+    font-size: 11px; 
+    font-weight: 700; 
+    letter-spacing: 2px; 
+    color: var(--muted); 
+    text-transform: uppercase; 
+    margin-bottom: 1rem; 
+    opacity: 0.6;
+  }
+  .nav-link {
+    display: block;
+    font-size: 14px;
+    color: var(--muted);
+    text-decoration: none;
+    padding: 8px 12px;
+    border-radius: 8px;
+    margin-bottom: 4px;
+    transition: var(--transition);
+    border: 1px solid transparent;
+  }
+  .nav-link:hover { 
+    color: var(--text); 
+    background: var(--accent-light); 
+    transform: translateX(4px);
+  }
+  .nav-link.active { 
+    color: var(--accent); 
+    background: var(--accent-light); 
+    font-weight: 600;
+    border-color: var(--accent-light);
+  }
+  .nav-link.section { 
+    font-weight: 700; 
+    color: var(--text); 
+    margin-top: 1.5rem;
+    font-family: 'Outfit', sans-serif;
+  }
+  .nav-link.sub { padding-left: 24px; font-size: 13px; }
+
+  /* ── MAIN ── */
+  #main {
+    flex: 1;
+    margin-left: var(--sidebar-w);
+    padding: 2rem;
+    display: flex;
+    justify-content: center;
+    transition: var(--transition);
+  }
+
+  .content-wrapper {
+    width: 100%;
+    max-width: var(--container-w);
+  }
+
+  /* ── THEME TOGGLE ── */
+  .theme-toggle {
+    position: fixed;
+    bottom: 2rem;
+    right: 2rem;
+    width: 56px;
+    height: 56px;
+    border-radius: 28px;
+    background: var(--accent);
+    color: white;
+    border: none;
+    cursor: pointer;
+    box-shadow: var(--shadow-lg);
+    z-index: 1001;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: var(--transition);
+  }
+  .theme-toggle:hover { transform: scale(1.1) rotate(15deg); }
+  .theme-toggle svg { width: 24px; height: 24px; fill: currentColor; }
+
+  /* ── HERO ── */
+  .hero {
+    background: linear-gradient(135deg, #1a1d23 0%, #334155 100%);
+    color: #fff;
+    border-radius: 24px;
+    padding: 4rem 3rem;
+    margin-bottom: 4rem;
+    position: relative;
+    overflow: hidden;
+    box-shadow: var(--shadow-lg);
+  }
+  [data-theme='dark'] .hero {
+    background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+    border: 1px solid var(--border);
+  }
+  .hero::after {
+    content: '';
+    position: absolute;
+    top: -50%;
+    right: -20%;
+    width: 300px;
+    height: 300px;
+    background: radial-gradient(circle, var(--accent) 0%, transparent 70%);
+    opacity: 0.2;
+    filter: blur(40px);
+  }
+  .hero .eyebrow { 
+    font-family: 'Outfit', sans-serif;
+    font-size: 12px; 
+    font-weight: 700; 
+    letter-spacing: 4px; 
+    text-transform: uppercase; 
+    color: var(--accent); 
+    margin-bottom: 1.5rem; 
+  }
+  .hero h1 { 
+    font-family: 'Outfit', sans-serif; 
+    font-size: clamp(32px, 5vw, 48px); 
+    font-weight: 800; 
+    line-height: 1.1; 
+    margin-bottom: 1.5rem; 
+    letter-spacing: -1px;
+  }
+  .hero p { font-size: 18px; color: #94a3b8; line-height: 1.6; max-width: 600px; }
+  .hero-tags { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 2rem; }
+  .hero-tag { 
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px; 
+    font-weight: 600; 
+    padding: 6px 14px; 
+    border-radius: 100px; 
+    background: rgba(255,255,255,0.05); 
+    color: #cbd5e1; 
+    border: 1px solid rgba(255,255,255,0.1);
+  }
+
+  /* ── TOPIC SECTIONS ── */
+  .topic-section { margin-bottom: 8rem; }
+
+  .topic-header {
+    display: flex;
+    align-items: flex-start;
+    gap: 1.5rem;
+    margin-bottom: 3rem;
+    padding-bottom: 1.5rem;
+    border-bottom: 2px solid var(--border);
+  }
+  .topic-num {
+    font-family: 'Outfit', sans-serif;
+    font-size: 16px;
+    font-weight: 800;
+    color: white;
+    background: var(--accent);
+    width: 48px;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 12px;
+    flex-shrink: 0;
+    box-shadow: 0 4px 14px rgba(37, 99, 235, 0.3);
+  }
+  .topic-header h2 {
+    font-family: 'Outfit', sans-serif;
+    font-size: 32px;
+    font-weight: 700;
+    color: var(--text);
+    line-height: 1.2;
+    letter-spacing: -0.5px;
+  }
+  .topic-header p { font-size: 16px; color: var(--muted); margin-top: 8px; }
+
+  /* ── SUBSECTIONS ── */
+  .subsection { margin-bottom: 4rem; }
+
+  h3 {
+    font-family: 'Outfit', sans-serif;
+    font-size: 24px;
+    font-weight: 700;
+    color: var(--text);
+    margin-bottom: 1.5rem;
+    margin-top: 3.5rem;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  h3::before {
+    content: '';
+    display: inline-block;
+    width: 6px;
+    height: 24px;
+    background: var(--accent);
+    border-radius: 100px;
+    flex-shrink: 0;
+  }
+
+  h4 {
+    font-family: 'Outfit', sans-serif;
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--text);
+    margin-bottom: 1rem;
+    margin-top: 2.5rem;
+  }
+
+  p { margin-bottom: 1.25rem; color: var(--text); opacity: 0.9; }
+
+  /* ── CONCEPT BOX ── */
+  .concept-box {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 2rem;
+    margin: 2rem 0;
+    transition: var(--transition);
+    box-shadow: var(--shadow);
+  }
+  .concept-box:hover { transform: translateY(-4px); box-shadow: var(--shadow-lg); }
+
+  .concept-box.blue { border-left: 6px solid var(--accent); background: var(--accent-light); }
+  .concept-box.green { border-left: 6px solid var(--green); background: var(--green-light); }
+  .concept-box.amber { border-left: 6px solid var(--amber); background: var(--amber-light); }
+  .concept-box.red { border-left: 6px solid var(--red); background: var(--red-light); }
+  .concept-box.purple { border-left: 6px solid var(--purple); background: var(--purple-light); }
+  .concept-box.teal { border-left: 6px solid var(--teal); background: var(--teal-light); }
+
+  .concept-label {
+    font-family: 'Outfit', sans-serif;
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-bottom: 1rem;
+    display: block;
+  }
+  .blue .concept-label { color: var(--accent); }
+  .green .concept-label { color: var(--green); }
+  .amber .concept-label { color: var(--amber); }
+  .red .concept-label { color: var(--red); }
+  .purple .concept-label { color: var(--purple); }
+  .teal .concept-label { color: var(--teal); }
+
+  .concept-box h4 { margin-top: 0; }
+
+  /* ── DEFINITION ── */
+  .definition {
+    font-family: 'Lora', serif;
+    font-style: italic;
+    font-size: 18px;
+    color: var(--text);
+    line-height: 1.6;
+    border-left: 4px solid var(--accent);
+    padding: 0.5rem 0 0.5rem 1.5rem;
+    margin: 2rem 0;
+    background: var(--accent-light);
+    border-radius: 0 12px 12px 0;
+  }
+
+  /* ── CODE ── */
+  code {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 14px;
+    background: var(--accent-light);
+    padding: 2px 6px;
+    border-radius: 4px;
+    color: var(--accent);
+    font-weight: 600;
+  }
+
+  pre {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 14px;
+    background: #0f172a;
+    color: #e2e8f0;
+    padding: 2rem;
+    border-radius: 16px;
+    overflow-x: auto;
+    line-height: 1.6;
+    margin: 2rem 0;
+    box-shadow: var(--shadow-lg);
+    border: 1px solid var(--border);
+  }
+  pre .kw { color: #3b82f6; font-weight: 600; }
+  pre .fn { color: #f59e0b; }
+  pre .cm { color: #64748b; font-style: italic; }
+  pre .num { color: #10b981; }
+  pre .str { color: #f43f5e; }
+
+  /* ── TABLE ── */
+  .table-wrap { 
+    overflow-x: auto; 
+    margin: 2rem 0; 
+    border-radius: 16px;
+    border: 1px solid var(--border);
+    box-shadow: var(--shadow);
+  }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 15px;
+    background: var(--surface);
+  }
+  th {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Outfit', sans-serif;
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    padding: 16px 20px;
+    text-align: left;
+    border-bottom: 2px solid var(--border);
+  }
+  td { padding: 16px 20px; border-bottom: 1px solid var(--border); vertical-align: top; }
+  tr:last-child td { border-bottom: none; }
+  tr:nth-child(even) td { background: rgba(0,0,0,0.01); }
+  [data-theme='dark'] tr:nth-child(even) td { background: rgba(255,255,255,0.01); }
+  tr:hover td { background: var(--accent-light) !important; }
+
+  /* ── FORMULA ── */
+  .formula {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 18px;
+    font-weight: 600;
+    background: var(--surface);
+    color: var(--accent);
+    padding: 2rem;
+    border-radius: 16px;
+    margin: 2rem 0;
+    display: block;
+    text-align: center;
+    letter-spacing: 1px;
+    border: 1px solid var(--accent);
+    box-shadow: 0 0 20px var(--accent-light);
+  }
+
+  /* ── MCQ SECTION ── */
+  .mcq-section {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 24px;
+    padding: 3rem;
+    margin: 4rem 0;
+    box-shadow: var(--shadow-lg);
+  }
+  .mcq-section-title {
+    font-family: 'Outfit', sans-serif;
+    font-size: 12px;
+    font-weight: 800;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 3rem;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+  .mcq-section-title::after {
+    content: '';
+    flex: 1;
+    height: 2px;
+    background: var(--accent-light);
+    border-radius: 2px;
+  }
+
+  .mcq { margin-bottom: 4rem; }
+  .mcq:last-child { margin-bottom: 0; }
+
+  .mcq-q {
+    font-size: 17px;
+    font-weight: 600;
+    color: var(--text);
+    line-height: 1.5;
+    margin-bottom: 1.5rem;
+    padding: 1.5rem 2rem;
+    background: var(--bg);
+    border-radius: 16px;
+    border-left: 6px solid var(--accent);
+  }
+
+  .mcq-opts { display: flex; flex-direction: column; gap: 10px; margin-bottom: 1.5rem; }
+  .opt {
+    display: flex;
+    gap: 14px;
+    padding: 14px 20px;
+    border-radius: 12px;
+    border: 1px solid var(--border);
+    font-size: 15px;
+    background: var(--surface);
+    align-items: center;
+    transition: var(--transition);
+    cursor: pointer;
+  }
+  .opt:hover { border-color: var(--accent); background: var(--accent-light); }
+  .opt .label { 
+    font-family: 'Outfit', sans-serif; 
+    font-weight: 800; 
+    font-size: 14px; 
+    color: var(--muted); 
+    width: 28px;
+    height: 28px;
+    background: var(--bg);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 8px;
+    flex-shrink: 0;
+  }
+  .opt.correct { background: var(--green-light); border-color: var(--green); }
+  .opt.correct .label { background: var(--green); color: white; }
+  .opt.wrong-shown { background: var(--red-light); border-color: var(--red); opacity: 0.7; }
+
+  .mcq-answer {
+    background: var(--accent-light);
+    border: 1px solid var(--accent);
+    border-radius: 16px;
+    padding: 1.5rem 2rem;
+    margin-top: 1rem;
+    animation: fadeIn 0.5s ease-out;
+  }
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+  
+  .mcq-answer .ans-label {
+    font-family: 'Outfit', sans-serif;
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 8px;
+    display: block;
+  }
+  .mcq-answer p { font-size: 15px; color: var(--text); margin-bottom: 0; line-height: 1.6; opacity: 0.9; }
+
+  /* ── STEP BOX ── */
+  .steps { margin: 2rem 0; }
+  .step {
+    display: flex;
+    gap: 1.5rem;
+    margin-bottom: 1.25rem;
+    align-items: flex-start;
+  }
+  .step-num {
+    font-family: 'Outfit', sans-serif;
+    font-size: 12px;
+    font-weight: 800;
+    background: var(--text);
+    color: var(--bg);
+    width: 28px;
+    height: 28px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    margin-top: 4px;
+    box-shadow: var(--shadow);
+  }
+  .step-body { font-size: 16px; line-height: 1.7; }
+  .step-body strong { color: var(--accent); font-weight: 700; }
+
+  /* ── TRACE TABLE ── */
+  .trace {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 13px;
+    border-collapse: collapse;
+    margin: 2rem 0;
+    width: 100%;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: var(--shadow);
+  }
+  .trace th { background: #0f172a; color: #3b82f6; font-size: 12px; padding: 12px 16px; }
+  .trace td { padding: 10px 16px; border: 1px solid var(--border); }
+  .trace .highlight td { background: var(--amber-light); font-weight: 600; color: var(--amber); }
+
+  /* ── TWO-COL ── */
+  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin: 2rem 0; }
+  @media (max-width: 850px) { .two-col { grid-template-columns: 1fr; } }
+
+  /* ── DIVIDER ── */
+  .divider { border: none; border-top: 2px solid var(--border); margin: 6rem 0; opacity: 0.5; }
+
+  /* ── KEY POINT ── */
+  .key { display: flex; gap: 12px; align-items: flex-start; margin: 1rem 0; font-size: 16px; font-weight: 500; }
+  .key::before { 
+    content: '→'; 
+    color: var(--accent); 
+    font-weight: 900; 
+    font-size: 18px; 
+    flex-shrink: 0;
+  }
+
+  /* ── ALERTS ── */
+  .warn, .tip { 
+    border-radius: 16px; 
+    padding: 1.5rem 2rem; 
+    margin: 2rem 0; 
+    font-size: 15px; 
+    display: flex;
+    gap: 12px;
+    align-items: center;
+  }
+  .warn { background: var(--amber-light); border: 1px solid var(--amber); color: var(--amber); }
+  .warn::before { content: '⚠'; font-size: 20px; font-weight: 800; }
+  
+  .tip { background: var(--green-light); border: 1px solid var(--green); color: var(--green); }
+  .tip::before { content: '✓'; font-size: 20px; font-weight: 800; }
+
+  /* ── MOBILE NAV ── */
+  #mobile-header {
+    display: none;
+    position: sticky;
+    top: 0;
+    width: 100%;
+    background: var(--surface);
+    padding: 1rem 1.5rem;
+    border-bottom: 1px solid var(--border);
+    z-index: 2000;
+    backdrop-filter: blur(10px);
+    justify-content: space-between;
+    align-items: center;
+  }
+  #mobile-toggle {
+    background: none;
+    border: none;
+    color: var(--text);
+    cursor: pointer;
+    padding: 0.5rem;
+  }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 1024px) {
+    #sidebar {
+      left: calc(-1 * var(--sidebar-w));
+    }
+    #sidebar.open {
+      left: 0;
+      box-shadow: 20px 0 50px rgba(0,0,0,0.3);
+    }
+    #main { margin-left: 0; padding: 1.5rem; }
+    #mobile-header { display: flex; }
+    .hero { padding: 3rem 2rem; }
+  }
+
+  @media (max-width: 768px) {
+    body { font-size: 15px; }
+    #main { padding: 1rem; }
+    
+    .hero { padding: 2.5rem 1.5rem; margin-bottom: 3rem; border-radius: 16px; }
+    .hero h1 { font-size: clamp(28px, 8vw, 36px); }
+    .hero p { font-size: 16px; }
+    
+    .topic-section { margin-bottom: 4rem; }
+    .topic-header { flex-direction: column; gap: 1rem; margin-bottom: 2rem; padding-bottom: 1rem; }
+    .topic-num { width: 40px; height: 40px; font-size: 14px; }
+    .topic-header h2 { font-size: 26px; }
+    
+    h3 { font-size: 20px; margin-top: 2.5rem; margin-bottom: 1rem; }
+    h4 { font-size: 17px; margin-top: 2rem; }
+    
+    .concept-box { padding: 1.25rem; margin: 1.5rem 0; border-radius: 12px; }
+    .definition { font-size: 16px; padding: 0.5rem 0 0.5rem 1rem; margin: 1.5rem 0; }
+    pre { padding: 1.25rem; margin: 1.5rem 0; font-size: 13px; border-radius: 12px; }
+    .formula { padding: 1.25rem; font-size: 16px; }
+    
+    .mcq-section { padding: 1.5rem; margin: 2rem 0; border-radius: 16px; }
+    .mcq-section-title { margin-bottom: 2rem; }
+    .mcq { margin-bottom: 3rem; }
+    .mcq-q { padding: 1rem 1.25rem; font-size: 15px; border-radius: 12px; }
+    .opt { padding: 12px 14px; font-size: 14px; }
+    .mcq-answer { padding: 1.25rem; font-size: 14px; }
+    
+    .warn, .tip { padding: 1.25rem; font-size: 14px; margin: 1.5rem 0; border-radius: 12px; }
+    .table-wrap { margin: 1.5rem 0; border-radius: 12px; }
+    th, td { padding: 12px 14px; }
+    
+    .divider { margin: 4rem 0; }
+    
+    .theme-toggle {
+      width: 48px; height: 48px;
+      bottom: 1.5rem; right: 1.5rem;
+    }
+    .theme-toggle svg { width: 20px; height: 20px; }
+  }
+
+  #overlay {
+    display: none;
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(0,0,0,0.5);
+    z-index: 999;
+    backdrop-filter: blur(4px);
+  }
+  #overlay.active { display: block; }
+
+  /* ── SCROLLBAR ── */
+  ::-webkit-scrollbar { width: 8px; }
+  ::-webkit-scrollbar-track { background: var(--bg); }
+  ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 10px; }
+  ::-webkit-scrollbar-thumb:hover { background: var(--muted); }
+
+  /* ── PRINT ── */
+  @media print {
+    #sidebar, .theme-toggle, #mobile-header { display: none; }
+    #main { margin-left: 0; padding: 0; }
+    .hero { background: none; color: black; border: 2px solid black; }
+    .concept-box { break-inside: avoid; border: 1px solid #ccc; }
+  }
+</style>
+</head>
+<body>
+
+<!-- Overlay for mobile sidebar -->
+<div id="overlay"></div>
+
+<!-- Mobile Header -->
+<header id="mobile-header">
+  <div style="font-family: 'Outfit', sans-serif; font-weight: 700; font-size: 14px;">DAA Study Guide</div>
+  <button id="mobile-toggle">
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+  </button>
+</header>
+
+<div id="app-container">
+  <!-- Theme Toggle Button -->
+  <button class="theme-toggle" id="theme-toggle" title="Toggle Dark Mode">
+    <svg class="sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
+    <svg class="moon" style="display:none" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+  </button>
+
+  <!-- ═══════════════════ SIDEBAR ═══════════════════ -->
+  <nav id="sidebar">
+  <div id="sidebar-header">
+    <div class="course">UCS415 · TIET Patiala</div>
+    <div class="title">Design &amp; Analysis of Algorithms — Complete Study Guide</div>
+  </div>
+
+  <div class="nav-section">
+    <div class="nav-section-label">Topics</div>
+    <a class="nav-link section" href="#t1">01 · Complexity Analysis</a>
+    <a class="nav-link sub" href="#t1-ds">Data Structures</a>
+    <a class="nav-link sub" href="#t1-notation">Asymptotic Notation</a>
+    <a class="nav-link sub" href="#t1-recurrence">Recurrences</a>
+    <a class="nav-link sub" href="#t1-iter">Iterative Analysis</a>
+    <a class="nav-link sub" href="#t1-mcq">Practice MCQs</a>
+
+    <a class="nav-link section" href="#t2">02 · Divide &amp; Conquer</a>
+    <a class="nav-link sub" href="#t2-method">General Method</a>
+    <a class="nav-link sub" href="#t2-bsearch">Binary Search</a>
+    <a class="nav-link sub" href="#t2-merge">Merge Sort</a>
+    <a class="nav-link sub" href="#t2-quick">Quick Sort</a>
+    <a class="nav-link sub" href="#t2-subarray">Max Subarray</a>
+    <a class="nav-link sub" href="#t2-mcq">Practice MCQs</a>
+
+    <a class="nav-link section" href="#t3">03 · Greedy Algorithms</a>
+    <a class="nav-link sub" href="#t3-strategy">Greedy Strategy</a>
+    <a class="nav-link sub" href="#t3-activity">Activity Selection</a>
+    <a class="nav-link sub" href="#t3-platforms">Min Platforms</a>
+    <a class="nav-link sub" href="#t3-coin">Coin Change</a>
+    <a class="nav-link sub" href="#t3-huffman">Huffman Coding</a>
+    <a class="nav-link sub" href="#t3-job">Job Sequencing</a>
+    <a class="nav-link sub" href="#t3-knapsack">Fractional Knapsack</a>
+    <a class="nav-link sub" href="#t3-mcq">Practice MCQs</a>
+
+    <a class="nav-link section" href="#t4">04 · Dynamic Programming</a>
+    <a class="nav-link sub" href="#t4-method">General Method</a>
+    <a class="nav-link sub" href="#t4-mcm">Matrix Chain</a>
+    <a class="nav-link sub" href="#t4-knapsack">0/1 Knapsack</a>
+    <a class="nav-link sub" href="#t4-lcs">LCS</a>
+    <a class="nav-link sub" href="#t4-mis">Max Indep. Set</a>
+    <a class="nav-link sub" href="#t4-kadane">Kadane's</a>
+    <a class="nav-link sub" href="#t4-mcq">Practice MCQs</a>
+
+    <a class="nav-link section" href="#t5">05 · Backtracking</a>
+    <a class="nav-link sub" href="#t5-intro">Introduction</a>
+    <a class="nav-link sub" href="#t5-nqueens">N-Queens</a>
+    <a class="nav-link sub" href="#t5-coloring">Graph Coloring</a>
+    <a class="nav-link sub" href="#t5-mcq">Practice MCQs</a>
+
+    <a class="nav-link section" href="#t6">06 · Graphs &amp; Algorithms</a>
+    <a class="nav-link sub" href="#t6-intro">Introduction</a>
+    <a class="nav-link sub" href="#t6-euler">Euler Graphs</a>
+    <a class="nav-link sub" href="#t6-hamilton">Hamiltonian</a>
+    <a class="nav-link sub" href="#t6-topo">Topological Sort</a>
+    <a class="nav-link sub" href="#t6-scc">SCC</a>
+    <a class="nav-link sub" href="#t6-maxflow">Max Flow</a>
+    <a class="nav-link sub" href="#t6-mcq">Practice MCQs</a>
+  </div>
+</nav>
+
+  <!-- ═══════════════════ MAIN ═══════════════════ -->
+  <main id="main">
+    <div class="content-wrapper">
+
+  <!-- HERO -->
+  <div class="hero">
+    <div class="eyebrow">Quiz Syllabus · 30th April 2026</div>
+    <h1>UCS415: Design &amp; Analysis<br>of Algorithms</h1>
+    <p>Complete zero-to-exam study guide. Every concept explained from scratch with examples, traces, and exam-style MCQs. Read top to bottom once — you will score full marks.</p>
+    <div class="hero-tags">
+      <span class="hero-tag">Complexity Analysis</span>
+      <span class="hero-tag">Divide &amp; Conquer</span>
+      <span class="hero-tag">Greedy</span>
+      <span class="hero-tag">Dynamic Programming</span>
+      <span class="hero-tag">Backtracking</span>
+      <span class="hero-tag">Graphs</span>
+    </div>
+  </div>
+
+
+  <!-- ════════════════════════════════════════════
+       TOPIC 1 — COMPLEXITY ANALYSIS
+  ════════════════════════════════════════════ -->
+  <section class="topic-section" id="t1">
+    <div class="topic-header">
+      <div class="topic-num">01</div>
+      <div>
+        <h2>Introduction &amp; Complexity Analysis</h2>
+        <p>Foundations: data structures, algorithm analysis, Big-O, recurrence relations</p>
+      </div>
+    </div>
+
+    <!-- DATA STRUCTURES -->
+    <div class="subsection" id="t1-ds">
+      <h3>1.1 · Essential Data Structures</h3>
+      <p>Before analysing algorithms, you need to know what each data structure does and its time complexity. Every algorithm uses one or more of these.</p>
+
+      <div class="table-wrap">
+        <table>
+          <tr><th>Structure</th><th>What it is</th><th>Key operations &amp; time</th><th>Real use</th></tr>
+          <tr>
+            <td><strong>Stack</strong></td>
+            <td>Last In First Out (LIFO). Think of a stack of plates.</td>
+            <td>Push: O(1) · Pop: O(1) · Peek: O(1)</td>
+            <td>Function call stack, undo/redo, DFS</td>
+          </tr>
+          <tr>
+            <td><strong>Queue</strong></td>
+            <td>First In First Out (FIFO). Think of a queue at a counter.</td>
+            <td>Enqueue: O(1) · Dequeue: O(1)</td>
+            <td>BFS, scheduling, print spooler</td>
+          </tr>
+          <tr>
+            <td><strong>Binary Tree</strong></td>
+            <td>Each node has at most 2 children (left, right).</td>
+            <td>Search/Insert/Delete: O(n) worst, O(log n) in BST</td>
+            <td>Expression trees, Huffman coding</td>
+          </tr>
+          <tr>
+            <td><strong>Binary Search Tree</strong></td>
+            <td>Left child &lt; parent &lt; right child — always.</td>
+            <td>Search/Insert: O(log n) avg, O(n) worst</td>
+            <td>Ordered sets, maps</td>
+          </tr>
+          <tr>
+            <td><strong>Min-Heap</strong></td>
+            <td>Complete binary tree. Parent ≤ both children. Root = minimum element.</td>
+            <td>Insert: O(log n) · Extract-min: O(log n) · Peek-min: O(1)</td>
+            <td>Priority queue, Dijkstra, Huffman</td>
+          </tr>
+          <tr>
+            <td><strong>Max-Heap</strong></td>
+            <td>Parent ≥ both children. Root = maximum element.</td>
+            <td>Insert: O(log n) · Extract-max: O(log n)</td>
+            <td>Heap sort, scheduling</td>
+          </tr>
+        </table>
+      </div>
+
+      <div class="concept-box blue">
+        <div class="concept-label">Heap Property</div>
+        <p>A heap is built from an array. For index <code>i</code>: left child = <code>2i+1</code>, right child = <code>2i+2</code>, parent = <code>⌊(i-1)/2⌋</code>. Building a heap from n elements takes <strong>O(n)</strong> — NOT O(n log n), which surprises many students.</p>
+      </div>
+    </div>
+
+    <!-- ASYMPTOTIC NOTATION -->
+    <div class="subsection" id="t1-notation">
+      <h3>1.2 · Asymptotic Notation</h3>
+      <p>We analyse algorithms by how their running time grows as input size n → ∞. We ignore constants and lower-order terms because they don't matter at scale.</p>
+
+      <h4>The Three Notations</h4>
+      <div class="two-col">
+        <div class="concept-box blue">
+          <div class="concept-label">Big-O — Upper Bound</div>
+          <p><strong>f(n) = O(g(n))</strong> means f grows <em>no faster than</em> g.<br>
+          "The algorithm takes <em>at most</em> this long."<br><br>
+          Example: Insertion sort is O(n²). It may be faster, but never worse than n².</p>
+        </div>
+        <div class="concept-box green">
+          <div class="concept-label">Omega — Lower Bound</div>
+          <p><strong>f(n) = Ω(g(n))</strong> means f grows <em>at least as fast as</em> g.<br>
+          "The algorithm takes <em>at least</em> this long."<br><br>
+          Example: Any comparison sort is Ω(n log n) — you can't do better.</p>
+        </div>
+      </div>
+      <div class="concept-box purple">
+        <div class="concept-label">Theta — Tight Bound (Most Useful)</div>
+        <p><strong>f(n) = Θ(g(n))</strong> means f grows at <em>exactly the same rate</em> as g (within constants).<br>
+        This is what we usually mean when we say "the complexity is n log n".<br><br>
+        Merge sort is <strong>Θ(n log n)</strong> — it's always n log n, no better or worse.</p>
+      </div>
+
+      <h4>How to simplify: drop constants &amp; lower terms</h4>
+      <div class="concept-box amber">
+        <div class="concept-label">Simplification Rules</div>
+        <p>Given f(n) = <strong>7n³ + 5n² + 100n + 9</strong>:</p>
+        <div class="steps">
+          <div class="step"><div class="step-num">1</div><div class="step-body">Drop the constant: <strong>9 → gone</strong></div></div>
+          <div class="step"><div class="step-num">2</div><div class="step-body">Drop lower-order terms: <strong>100n and 5n² → gone</strong> (n³ dominates)</div></div>
+          <div class="step"><div class="step-num">3</div><div class="step-body">Drop the coefficient: <strong>7 → gone</strong></div></div>
+          <div class="step"><div class="step-num">4</div><div class="step-body">Result: <strong>f(n) = Θ(n³)</strong></div></div>
+        </div>
+      </div>
+
+      <h4>Order of Growth — Memorise this hierarchy</h4>
+      <span class="formula">O(1) &lt; O(log n) &lt; O(√n) &lt; O(n) &lt; O(n log n) &lt; O(n²) &lt; O(n³) &lt; O(2ⁿ) &lt; O(n!)</span>
+
+      <div class="table-wrap">
+        <table>
+          <tr><th>Complexity</th><th>Name</th><th>Example algorithm</th><th>n=1000 operations (approx)</th></tr>
+          <tr><td><code>O(1)</code></td><td>Constant</td><td>Array access, hash lookup</td><td>1</td></tr>
+          <tr><td><code>O(log n)</code></td><td>Logarithmic</td><td>Binary search</td><td>10</td></tr>
+          <tr><td><code>O(n)</code></td><td>Linear</td><td>Linear search, Kadane's</td><td>1,000</td></tr>
+          <tr><td><code>O(n log n)</code></td><td>Linearithmic</td><td>Merge sort, Quick sort avg</td><td>10,000</td></tr>
+          <tr><td><code>O(n²)</code></td><td>Quadratic</td><td>Bubble sort, Insertion sort</td><td>1,000,000</td></tr>
+          <tr><td><code>O(2ⁿ)</code></td><td>Exponential</td><td>Naive Fibonacci, brute-force</td><td>2^1000 ≈ ∞</td></tr>
+        </table>
+      </div>
+
+      <div class="warn">log n in algorithms always means log₂n (base 2). log₂1000 ≈ 10. Always check: if an algorithm halves the problem each time, it's logarithmic.</div>
+    </div>
+
+    <!-- RECURRENCE RELATIONS -->
+    <div class="subsection" id="t1-recurrence">
+      <h3>1.3 · Recurrence Relations</h3>
+      <p>Recursive algorithms have running times defined by recurrences: equations that express T(n) in terms of T of smaller inputs. We solve them to find the closed-form complexity.</p>
+
+      <h4>Method 1: Master Theorem (fastest method — use this first)</h4>
+      <p>For recurrences of the form <strong>T(n) = aT(n/b) + f(n)</strong> where a ≥ 1, b &gt; 1:</p>
+
+      <div class="concept-box blue">
+        <div class="concept-label">Master Theorem — Three Cases</div>
+        <p>First compute the <strong>watershed function</strong>: <code>n^(log_b a)</code></p>
+        <div class="steps">
+          <div class="step"><div class="step-num">1</div><div class="step-body"><strong>Case 1:</strong> If f(n) = O(n^(log_b a − ε)) for some ε &gt; 0<br>→ <strong>T(n) = Θ(n^(log_b a))</strong><br>Meaning: subproblem work dominates.</div></div>
+          <div class="step"><div class="step-num">2</div><div class="step-body"><strong>Case 2:</strong> If f(n) = Θ(n^(log_b a))<br>→ <strong>T(n) = Θ(n^(log_b a) · log n)</strong><br>Meaning: all levels contribute equally.</div></div>
+          <div class="step"><div class="step-num">3</div><div class="step-body"><strong>Case 3:</strong> If f(n) = Ω(n^(log_b a + ε)) for some ε &gt; 0<br>→ <strong>T(n) = Θ(f(n))</strong><br>Meaning: combining work dominates.</div></div>
+        </div>
+      </div>
+
+      <h4>Worked Examples — trace every step</h4>
+
+      <div class="concept-box teal">
+        <div class="concept-label">Example 1: Merge Sort</div>
+        <p><strong>T(n) = 2T(n/2) + n</strong></p>
+        <p>Here: a=2, b=2, f(n)=n<br>
+        Watershed = n^(log₂ 2) = n^1 = n<br>
+        Compare f(n)=n with watershed=n → they are equal → <strong>Case 2</strong><br>
+        ∴ <strong>T(n) = Θ(n log n)</strong> ✓</p>
+      </div>
+
+      <div class="concept-box teal">
+        <div class="concept-label">Example 2: Binary Search</div>
+        <p><strong>T(n) = T(n/2) + 1</strong></p>
+        <p>Here: a=1, b=2, f(n)=1<br>
+        Watershed = n^(log₂ 1) = n^0 = 1<br>
+        Compare f(n)=1 with watershed=1 → equal → <strong>Case 2</strong><br>
+        ∴ <strong>T(n) = Θ(log n)</strong> ✓</p>
+      </div>
+
+      <div class="concept-box teal">
+        <div class="concept-label">Example 3: T(n) = 2T(n/2) + n²</div>
+        <p>Here: a=2, b=2, f(n)=n²<br>
+        Watershed = n^(log₂ 2) = n<br>
+        Compare f(n)=n² with watershed=n → n² grows faster → <strong>Case 3</strong><br>
+        ∴ <strong>T(n) = Θ(n²)</strong></p>
+      </div>
+
+      <h4>Common Recurrences — Must Memorise</h4>
+      <div class="table-wrap">
+        <table>
+          <tr><th>Recurrence</th><th>Solution</th><th>Algorithm</th></tr>
+          <tr><td><code>T(n) = T(n/2) + 1</code></td><td>Θ(log n)</td><td>Binary search</td></tr>
+          <tr><td><code>T(n) = 2T(n/2) + 1</code></td><td>Θ(n)</td><td>Tree traversal</td></tr>
+          <tr><td><code>T(n) = 2T(n/2) + n</code></td><td>Θ(n log n)</td><td>Merge sort</td></tr>
+          <tr><td><code>T(n) = T(n/2) + n</code></td><td>Θ(n)</td><td>—</td></tr>
+          <tr><td><code>T(n) = T(n−1) + 1</code></td><td>Θ(n)</td><td>Linear scan</td></tr>
+          <tr><td><code>T(n) = T(n−1) + n</code></td><td>Θ(n²)</td><td>Selection sort</td></tr>
+          <tr><td><code>T(n) = 2T(n−1) + 1</code></td><td>Θ(2ⁿ)</td><td>Tower of Hanoi</td></tr>
+          <tr><td><code>T(n) = T(n−1)+T(n−2)+c</code></td><td>Θ(2ⁿ)</td><td>Naive Fibonacci</td></tr>
+        </table>
+      </div>
+
+      <div class="warn">Master Theorem does NOT apply to: T(n) = T(n−1) + f(n) (not n/b form). Use substitution or back-substitution for these.</div>
+    </div>
+
+    <!-- ITERATIVE ANALYSIS -->
+    <div class="subsection" id="t1-iter">
+      <h3>1.4 · Analysing Iterative &amp; Recursive Algorithms</h3>
+
+      <h4>Rule for iterative analysis: count innermost operations</h4>
+      <pre><span class="cm">// Example 1: Single loop</span>
+<span class="kw">for</span> i = <span class="num">1</span> <span class="kw">to</span> n:
+    print(i)          <span class="cm">// runs exactly n times → O(n)</span>
+
+<span class="cm">// Example 2: Nested loops</span>
+<span class="kw">for</span> i = <span class="num">1</span> <span class="kw">to</span> n:
+    <span class="kw">for</span> j = <span class="num">1</span> <span class="kw">to</span> n:
+        print(i, j)   <span class="cm">// runs n × n = n² times → O(n²)</span>
+
+<span class="cm">// Example 3: Dependent loops</span>
+<span class="kw">for</span> i = <span class="num">1</span> <span class="kw">to</span> n:
+    <span class="kw">for</span> j = i <span class="kw">to</span> n:
+        print(i, j)   <span class="cm">// n + (n-1) + ... + 1 = n(n+1)/2 → O(n²)</span>
+
+<span class="cm">// Example 4: Logarithmic inner loop</span>
+<span class="kw">for</span> i = <span class="num">1</span> <span class="kw">to</span> n:
+    j = <span class="num">1</span>
+    <span class="kw">while</span> j &lt; n:
+        j = j * <span class="num">2</span>    <span class="cm">// inner runs log₂n times → O(n log n) total</span></pre>
+
+      <div class="tip">For the while loop with j = j*2: j takes values 1, 2, 4, 8, ..., n. It reaches n in log₂n steps. This pattern is extremely common in exam questions.</div>
+    </div>
+
+    <!-- MCQ 1 -->
+    <div class="mcq-section" id="t1-mcq">
+      <div class="mcq-section-title">Practice MCQs — Complexity Analysis</div>
+
+      <div class="mcq">
+        <div class="mcq-q">Q1. T(n) = T(n−1) + T(n−2) + T(n−3) for n&gt;3, T(n)=n otherwise. What relation must hold between T(4), T(5), T(6) for the algorithm's order to become constant?</div>
+        <div class="mcq-opts">
+          <div class="opt correct"><span class="label">A</span> T(4) = T(5) = T(6)</div>
+          <div class="opt"><span class="label">B</span> T(4) + T(6) = 2T(5)</div>
+          <div class="opt"><span class="label">C</span> T(4) − T(6) = T(5)</div>
+          <div class="opt"><span class="label">D</span> T(4) + T(5) = T(6)</div>
+        </div>
+        <div class="mcq-answer">
+          <div class="ans-label">Answer: A · From your previous paper Q1</div>
+          <p>For T(n) to be O(1) — constant — T(n) must stop growing. Constant growth means the function value does not change with n. The only way T(4), T(5), T(6) remain constant is if T(4) = T(5) = T(6). If they were different (like option D: T(4)+T(5)=T(6)), T would keep increasing — that's linear or exponential, not constant. The actual values here are T(4)=6, T(5)=11 — they are NOT equal, so the algorithm is NOT constant order in reality. The question asks what MUST be true IF it were constant.</p>
+        </div>
+      </div>
+
+      <div class="mcq">
+        <div class="mcq-q">Q2. What is the time complexity of T(n) = 4T(n/2) + n?</div>
+        <div class="mcq-opts">
+          <div class="opt"><span class="label">A</span> Θ(n)</div>
+          <div class="opt"><span class="label">B</span> Θ(n log n)</div>
+          <div class="opt correct"><span class="label">C</span> Θ(n²)</div>
+          <div class="opt"><span class="label">D</span> Θ(n² log n)</div>
+        </div>
+        <div class="mcq-answer">
+          <div class="ans-label">Answer: C</div>
+          <p>a=4, b=2, f(n)=n. Watershed = n^(log₂4) = n^2. Compare f(n)=n with watershed=n². Since n grows slower than n² (n = O(n^(2−1))), this is Case 1. T(n) = Θ(n^(log₂4)) = Θ(n²). The combine work (n per level) is dominated by the explosion of subproblems.</p>
+        </div>
+      </div>
+
+      <div class="mcq">
+        <div class="mcq-q">Q3. Which of the following is NOT O(n²)?</div>
+        <div class="mcq-opts">
+          <div class="opt"><span class="label">A</span> 100n² + 50n + 1</div>
+          <div class="opt"><span class="label">B</span> n² / 1000</div>
+          <div class="opt correct"><span class="label">C</span> n² · log n</div>
+          <div class="opt"><span class="label">D</span> n · n</div>
+        </div>
+        <div class="mcq-answer">
+          <div class="ans-label">Answer: C</div>
+          <p>O(n²) means the function grows no faster than cn² for some constant c. Options A (drop constants → n²), B (constant factor → n²), D (= n²) all qualify. Option C is n² · log n, which grows faster than n² since log n → ∞. So n² log n is NOT O(n²) — it's O(n² log n). A common mistake is thinking any function with n² is O(n²).</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <hr class="divider">
+
+
+  <!-- ════════════════════════════════════════════
+       TOPIC 2 — DIVIDE & CONQUER
+  ════════════════════════════════════════════ -->
+  <section class="topic-section" id="t2">
+    <div class="topic-header">
+      <div class="topic-num">02</div>
+      <div>
+        <h2>Divide &amp; Conquer</h2>
+        <p>Binary search, merge sort, quicksort, maximum subarray, peak element</p>
+      </div>
+    </div>
+
+    <div class="subsection" id="t2-method">
+      <h3>2.1 · The General Method</h3>
+      <p>Every divide-and-conquer algorithm follows exactly three steps:</p>
+      <div class="steps">
+        <div class="step"><div class="step-num">1</div><div class="step-body"><strong>Divide:</strong> Break the problem of size n into a smaller subproblems of size n/b each.</div></div>
+        <div class="step"><div class="step-num">2</div><div class="step-body"><strong>Conquer:</strong> Solve each subproblem recursively. Base case: when the subproblem is small enough, solve directly.</div></div>
+        <div class="step"><div class="step-num">3</div><div class="step-body"><strong>Combine:</strong> Merge the subproblem solutions into the final answer.</div></div>
+      </div>
+      <div class="tip">The recurrence T(n) = aT(n/b) + f(n) directly maps to this: a = number of subproblems, b = factor by which size reduces, f(n) = cost to divide + combine.</div>
+    </div>
+
+    <div class="subsection" id="t2-bsearch">
+      <h3>2.2 · Binary Search</h3>
+      <p>Finds a target in a <strong>sorted</strong> array by repeatedly halving the search space.</p>
+      <pre><span class="fn">BinarySearch</span>(A, low, high, target):
+    <span class="kw">if</span> low &gt; high: <span class="kw">return</span> -<span class="num">1</span>  <span class="cm">// not found</span>
+    mid = (low + high) / <span class="num">2</span>
+    <span class="kw">if</span> A[mid] == target: <span class="kw">return</span> mid
+    <span class="kw">else if</span> A[mid] &lt; target: <span class="kw">return</span> BinarySearch(A, mid+<span class="num">1</span>, high, target)
+    <span class="kw">else</span>: <span class="kw">return</span> BinarySearch(A, low, mid-<span class="num">1</span>, target)</pre>
+
+      <div class="two-col">
+        <div class="concept-box green"><div class="concept-label">Complexity</div><p>Time: <strong>O(log n)</strong> — halves each step.<br>Space: O(log n) recursive, O(1) iterative.</p></div>
+        <div class="concept-box amber"><div class="concept-label">Prerequisite</div><p>Array MUST be sorted. If unsorted: sort first (O(n log n)), then search — or just use linear search O(n).</p></div>
+      </div>
+
+      <div class="warn">Finding a pair a,b in sorted array A[] such that a+b &gt; x is O(1) — just check A[n-1] + A[n-2] (the two largest). Don't overthink it. This appeared as Q3 in your paper.</div>
+    </div>
+
+    <div class="subsection" id="t2-merge">
+      <h3>2.3 · Merge Sort</h3>
+      <p>Splits array in half, recursively sorts each half, then merges the two sorted halves.</p>
+      <pre><span class="fn">MergeSort</span>(A, low, high):
+    <span class="kw">if</span> low &lt; high:
+        mid = (low + high) / <span class="num">2</span>
+        MergeSort(A, low, mid)      <span class="cm">// sort left half</span>
+        MergeSort(A, mid+<span class="num">1</span>, high)  <span class="cm">// sort right half</span>
+        Merge(A, low, mid, high)    <span class="cm">// merge: O(n) step</span></pre>
+
+      <div class="table-wrap">
+        <table>
+          <tr><th>Property</th><th>Value</th></tr>
+          <tr><td>Recurrence</td><td>T(n) = 2T(n/2) + n</td></tr>
+          <tr><td>Time (all cases)</td><td>Θ(n log n) — always, no exceptions</td></tr>
+          <tr><td>Space</td><td>O(n) extra — needs auxiliary array for merging</td></tr>
+          <tr><td>Stable?</td><td>Yes — equal elements maintain relative order</td></tr>
+          <tr><td>In-place?</td><td>No — needs extra space</td></tr>
+        </table>
+      </div>
+
+      <h4>Trace on [5, 2, 8, 1, 9, 3]</h4>
+      <pre>Split:  [5,2,8] | [1,9,3]
+        [5,2]|[8] | [1,9]|[3]
+        [5]|[2]|  | [1]|[9]|
+
+Merge:  [2,5] | [8] | [1,9] | [3]
+        [2,5,8]   | [1,3,9]
+        [1,2,3,5,8,9]  ← final</pre>
+    </div>
+
+    <div class="subsection" id="t2-quick">
+      <h3>2.4 · Quick Sort — Critical for Exam</h3>
+      <p>Picks a <strong>pivot</strong>, partitions array so all elements less than pivot are left and greater are right, then recursively sorts both halves.</p>
+
+      <pre><span class="fn">QuickSort</span>(A, low, high):
+    <span class="kw">if</span> low &lt; high:
+        pivot_index = Partition(A, low, high)
+        QuickSort(A, low, pivot_index - <span class="num">1</span>)   <span class="cm">// left of pivot</span>
+        QuickSort(A, pivot_index + <span class="num">1</span>, high)  <span class="cm">// right of pivot</span></pre>
+
+      <div class="table-wrap">
+        <table>
+          <tr><th>Case</th><th>When?</th><th>Time</th><th>Recurrence</th></tr>
+          <tr><td>Best</td><td>Pivot always splits array equally in half</td><td>Θ(n log n)</td><td>T(n) = 2T(n/2) + n</td></tr>
+          <tr><td>Average</td><td>Random pivot, random input</td><td>Θ(n log n)</td><td>T(n) = T(n/9) + T(9n/10) + n (roughly)</td></tr>
+          <tr><td>Worst</td><td>Pivot always picks smallest or largest</td><td>Θ(n²)</td><td>T(n) = T(n−1) + n</td></tr>
+        </table>
+      </div>
+
+      <div class="concept-box red">
+        <div class="concept-label">⚠ EXAM CRITICAL — From your paper Q2</div>
+        <p>Algorithm Q sorts in <strong>descending</strong> order using <strong>last element</strong> as pivot.</p>
+        <p>Input 1: [5, 4, 3, 2, 1] — already sorted descending<br>
+        Input 2: [1, 2, 3, 4, 5] — sorted ascending</p>
+        <p>Partition always performs exactly n−1 comparisons regardless of input values. Both inputs create the same structure of recursive calls (each pivot creates 0-element and n−1-element partitions — worst case for both!). Therefore <strong>c1 = c2</strong>. Answer: C.</p>
+      </div>
+
+      <div class="table-wrap">
+        <table>
+          <tr><th>Property</th><th>Quick Sort</th><th>Merge Sort</th></tr>
+          <tr><td>Best case</td><td>O(n log n)</td><td>O(n log n)</td></tr>
+          <tr><td>Worst case</td><td>O(n²)</td><td>O(n log n)</td></tr>
+          <tr><td>Space</td><td>O(log n) — in-place!</td><td>O(n) extra</td></tr>
+          <tr><td>Stable?</td><td>No</td><td>Yes</td></tr>
+          <tr><td>Preferred when</td><td>Average performance, in-place needed</td><td>Worst-case guarantee, stable needed</td></tr>
+        </table>
+      </div>
+    </div>
+
+    <div class="subsection" id="t2-subarray">
+      <h3>2.5 · Maximum Subarray &amp; Peak Element</h3>
+      <h4>Maximum Subarray (D&amp;C approach)</h4>
+      <p>Divide array in half. Max subarray is either: entirely in left half, entirely in right half, or crosses the midpoint. The crossing case can be found in O(n). Recurrence: T(n) = 2T(n/2) + n = O(n log n). (Kadane's DP does it in O(n) — covered in Topic 4.)</p>
+
+      <h4>Peak Element</h4>
+      <p>An element is a peak if it is greater than or equal to both neighbours. Find it using binary search:</p>
+      <div class="steps">
+        <div class="step"><div class="step-num">1</div><div class="step-body">Check A[mid] vs A[mid+1].</div></div>
+        <div class="step"><div class="step-num">2</div><div class="step-body">If A[mid] &lt; A[mid+1] → peak must be in RIGHT half (there's a larger element there).</div></div>
+        <div class="step"><div class="step-num">3</div><div class="step-body">Else → peak is in LEFT half (or at mid itself).</div></div>
+        <div class="step"><div class="step-num">4</div><div class="step-body">Repeat. Time: <strong>O(log n)</strong>.</div></div>
+      </div>
+    </div>
+
+    <div class="mcq-section" id="t2-mcq">
+      <div class="mcq-section-title">Practice MCQs — Divide &amp; Conquer</div>
+
+      <div class="mcq">
+        <div class="mcq-q">Q4. Algorithm Q sorts numbers in descending order using the last element as pivot. c1 and c2 are the comparisons made for inputs [5,4,3,2,1] and [1,2,3,4,5] respectively. Which holds?</div>
+        <div class="mcq-opts">
+          <div class="opt"><span class="label">A</span> c1 &lt; c2</div>
+          <div class="opt"><span class="label">B</span> c1 &gt; c2</div>
+          <div class="opt correct"><span class="label">C</span> c1 = c2</div>
+          <div class="opt"><span class="label">D</span> c1 − c2 &lt; c2 − c1</div>
+        </div>
+        <div class="mcq-answer">
+          <div class="ans-label">Answer: C · From your previous paper Q2</div>
+          <p>Every partition call does exactly (high − low) comparisons, regardless of the values in the array. For both inputs, the partition with last element as pivot produces the same worst-case split (pivot ends up at one extreme in both cases when sorting descending). The total number of comparisons across all recursive calls is identical. Therefore c1 = c2.</p>
+        </div>
+      </div>
+
+      <div class="mcq">
+        <div class="mcq-q">Q5. Sorted array A[] and threshold x. Complexity of finding a pair a,b in A[] such that a+b &gt; x?</div>
+        <div class="mcq-opts">
+          <div class="opt correct"><span class="label">A</span> O(1)</div>
+          <div class="opt"><span class="label">B</span> O(log n)</div>
+          <div class="opt"><span class="label">C</span> O(n)</div>
+          <div class="opt"><span class="label">D</span> O(n log n)</div>
+        </div>
+        <div class="mcq-answer">
+          <div class="ans-label">Answer: A · From your previous paper Q3</div>
+          <p>The question asks whether ANY pair exists with sum &gt; x. The maximum possible sum in a sorted array is A[n−1] + A[n−2] (the two largest elements). If even this maximum sum is ≤ x, no pair exists. If it is &gt; x, that pair itself is our answer. We need exactly ONE check: compare A[n−1]+A[n−2] with x. That's O(1). Students who think O(n) are solving the harder problem of finding ALL such pairs.</p>
+        </div>
+      </div>
+
+      <div class="mcq">
+        <div class="mcq-q">Q6. Which sorting algorithm guarantees O(n log n) in the worst case AND is stable?</div>
+        <div class="mcq-opts">
+          <div class="opt"><span class="label">A</span> Quick Sort</div>
+          <div class="opt correct"><span class="label">B</span> Merge Sort</div>
+          <div class="opt"><span class="label">C</span> Heap Sort</div>
+          <div class="opt"><span class="label">D</span> Shell Sort</div>
+        </div>
+        <div class="mcq-answer">
+          <div class="ans-label">Answer: B</div>
+          <p>Merge Sort: always O(n log n) regardless of input, and stable (equal elements keep original relative order). Quick Sort: O(n²) worst case. Heap Sort: O(n log n) worst case but NOT stable (heap operations may reorder equal elements). Shell Sort: O(n log²n) typically, not a guaranteed O(n log n) algorithm.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <hr class="divider">
+
+
+  <!-- ════════════════════════════════════════════
+       TOPIC 3 — GREEDY ALGORITHMS
+  ════════════════════════════════════════════ -->
+  <section class="topic-section" id="t3">
+    <div class="topic-header">
+      <div class="topic-num">03</div>
+      <div>
+        <h2>Greedy Algorithms</h2>
+        <p>Activity selection, platforms, coin change, Huffman coding, job sequencing, fractional knapsack</p>
+      </div>
+    </div>
+
+    <div class="subsection" id="t3-strategy">
+      <h3>3.1 · The Greedy Strategy</h3>
+      <p>A greedy algorithm builds a solution step by step, always making the choice that looks <strong>best right now</strong> (locally optimal) without reconsidering past choices. It works correctly only when the problem has:</p>
+      <div class="two-col">
+        <div class="concept-box blue"><div class="concept-label">Property 1: Greedy Choice</div><p>A globally optimal solution can be constructed by making locally optimal choices. Each greedy choice is safe.</p></div>
+        <div class="concept-box green"><div class="concept-label">Property 2: Optimal Substructure</div><p>An optimal solution to the problem contains optimal solutions to its subproblems.</p></div>
+      </div>
+      <div class="warn">Greedy does NOT always give the optimal answer. The classic failure case is coin change with non-standard denominations. Always verify the problem has the greedy-choice property before applying greedy.</div>
+    </div>
+
+    <div class="subsection" id="t3-activity">
+      <h3>3.2 · Activity Selection Problem</h3>
+      <p>Given n activities each with a start time sᵢ and finish time fᵢ, select the <strong>maximum number of mutually compatible activities</strong> (no two overlap).</p>
+
+      <div class="concept-box blue">
+        <div class="concept-label">Greedy Rule</div>
+        <p>Always pick the activity with the <strong>earliest finish time</strong> that is compatible with previously selected activities.</p>
+        <p>Sort activities by finish time. Scan left to right. Accept activity if its start ≥ finish time of last accepted activity.</p>
+      </div>
+
+      <h4>Worked Example</h4>
+      <div class="table-wrap">
+        <table>
+          <tr><th>Activity</th><th>Start</th><th>Finish</th><th>Selected?</th></tr>
+          <tr><td>A1</td><td>1</td><td>4</td><td>✓ (first)</td></tr>
+          <tr><td>A2</td><td>3</td><td>5</td><td>✗ (starts at 3, A1 ends at 4 — overlap)</td></tr>
+          <tr><td>A3</td><td>0</td><td>6</td><td>✗ (starts at 0, A1 ends at 4 — overlap)</td></tr>
+          <tr><td>A4</td><td>5</td><td>7</td><td>✓ (starts at 5 ≥ 4)</td></tr>
+          <tr><td>A5</td><td>8</td><td>9</td><td>✓ (starts at 8 ≥ 7)</td></tr>
+        </table>
+      </div>
+      <p>Time: O(n log n) for sorting + O(n) scan = <strong>O(n log n)</strong> total.</p>
+      <div class="tip">From your paper Q7: Activity selection selects the MAXIMUM size subset of MUTUALLY COMPATIBLE activities. Answer: B.</div>
+    </div>
+
+    <div class="subsection" id="t3-platforms">
+      <h3>3.3 · Minimum Number of Platforms</h3>
+      <p>Given arrival and departure times of trains, find the minimum number of platforms needed so no train waits.</p>
+
+      <div class="concept-box teal">
+        <div class="concept-label">Algorithm</div>
+        <div class="steps">
+          <div class="step"><div class="step-num">1</div><div class="step-body">Sort arrival array and departure array separately.</div></div>
+          <div class="step"><div class="step-num">2</div><div class="step-body">Use two pointers i (arrivals) and j (departures), starting at 0.</div></div>
+          <div class="step"><div class="step-num">3</div><div class="step-body">If arrival[i] ≤ departure[j]: a new train arrives before one departs → need one more platform. platforms++. i++.</div></div>
+          <div class="step"><div class="step-num">4</div><div class="step-body">Else: a train departs → free up a platform. platforms--. j++.</div></div>
+          <div class="step"><div class="step-num">5</div><div class="step-body">Track maximum platforms needed at any point.</div></div>
+        </div>
+        <p>Time: <strong>O(n log n)</strong></p>
+      </div>
+
+      <h4>Example: Arrivals [900, 940, 950, 1100, 1500, 1800], Departures [910, 1200, 1120, 1130, 1900, 2000]</h4>
+      <p>After sorting departures: [910, 1120, 1130, 1200, 1900, 2000]. Trace: max platforms needed = 3.</p>
+    </div>
+
+    <div class="subsection" id="t3-coin">
+      <h3>3.4 · Coin Change Problem</h3>
+      <p>Given coin denominations and a target amount, find the minimum number of coins to make change.</p>
+
+      <div class="two-col">
+        <div class="concept-box green">
+          <div class="concept-label">When Greedy Works</div>
+          <p>Standard denominations like {1, 5, 10, 25}: always pick the largest coin that fits. Greedy gives optimal answer.</p>
+          <p>Example: Amount = 41, coins = {25, 10, 5, 1}<br>
+          Greedy: 25+10+5+1 = 4 coins ✓</p>
+        </div>
+        <div class="concept-box red">
+          <div class="concept-label">When Greedy Fails</div>
+          <p>Non-standard denominations like {1, 3, 4}: greedy fails.</p>
+          <p>Amount = 6:<br>
+          Greedy: 4+1+1 = 3 coins ✗<br>
+          Optimal: 3+3 = 2 coins ✓</p>
+          <p>Use Dynamic Programming instead!</p>
+        </div>
+      </div>
+
+      <div class="concept-box amber">
+        <div class="concept-label">From Your Paper Q8 — Coins {1, 3, 4}</div>
+        <p>For which amount does greedy give optimal?</p>
+        <p>Amount 6: Greedy → 4+1+1=3 coins. Optimal → 3+3=2 coins. ✗ FAILS<br>
+        Amount 10: Greedy → 4+4+1+1=4 coins. Optimal → 4+3+3=3 coins. ✗ FAILS<br>
+        Amount 14: Greedy → 4+4+4+1+1=5 coins. Optimal → 4+4+3+3=4 coins. ✗ FAILS<br>
+        Amount 20: Greedy → 4+4+4+4+4=5 coins. Optimal → 4+4+4+4+4=5 coins. ✓ OPTIMAL<br>
+        <strong>Answer: D (20)</strong></p>
+      </div>
+    </div>
+
+    <div class="subsection" id="t3-huffman">
+      <h3>3.5 · Huffman Coding</h3>
+      <p>Assigns variable-length binary codes to characters. Higher-frequency characters get shorter codes. This minimises the total encoded length.</p>
+
+      <div class="concept-box blue">
+        <div class="concept-label">Algorithm using Min-Heap</div>
+        <div class="steps">
+          <div class="step"><div class="step-num">1</div><div class="step-body">Create one leaf node for each character and insert into a min-heap (key = frequency).</div></div>
+          <div class="step"><div class="step-num">2</div><div class="step-body">Extract two nodes with minimum frequencies, say x and y.</div></div>
+          <div class="step"><div class="step-num">3</div><div class="step-body">Create a new internal node with frequency = x.freq + y.freq. Its children are x and y.</div></div>
+          <div class="step"><div class="step-num">4</div><div class="step-body">Insert new node back into heap.</div></div>
+          <div class="step"><div class="step-num">5</div><div class="step-body">Repeat until heap has one node. That's the root of the Huffman tree.</div></div>
+        </div>
+        <p>Time: <strong>O(n log n)</strong> — n-1 extract-min operations, each O(log n).</p>
+      </div>
+
+      <h4>Example: Frequencies a=5, b=9, c=12, d=13, e=16, f=45</h4>
+      <pre>Step 1: Merge a(5) + b(9) = 14
+Step 2: Merge c(12) + d(13) = 25
+Step 3: Merge 14 + e(16) = 30
+Step 4: Merge 25 + 30 = 55
+Step 5: Merge f(45) + 55 = 100 (root)
+
+Tree depth:
+f → 0         (1 bit)   depth 1
+c → 100       (3 bits)  depth 3
+d → 101       (3 bits)  depth 3
+a → 1100      (4 bits)  depth 4
+b → 1101      (4 bits)  depth 4
+e → 111       (3 bits)  depth 3</pre>
+
+      <div class="tip">Lowest frequency = deepest in tree = longest code. Highest frequency = shallowest = shortest code. This is always true in Huffman coding.</div>
+    </div>
+
+    <div class="subsection" id="t3-job">
+      <h3>3.6 · Job Sequencing with Deadlines</h3>
+      <p>Given jobs with deadlines and profits, find a sequence that maximises total profit. Each job takes 1 unit of time.</p>
+
+      <div class="concept-box green">
+        <div class="concept-label">Algorithm</div>
+        <div class="steps">
+          <div class="step"><div class="step-num">1</div><div class="step-body">Sort jobs by <strong>profit in descending order</strong>.</div></div>
+          <div class="step"><div class="step-num">2</div><div class="step-body">Maintain a time slot array of size = max deadline.</div></div>
+          <div class="step"><div class="step-num">3</div><div class="step-body">For each job (in profit order): find the latest available slot ≤ job's deadline. If found, assign job to that slot.</div></div>
+          <div class="step"><div class="step-num">4</div><div class="step-body">Jobs assigned = maximum profit schedule.</div></div>
+        </div>
+      </div>
+
+      <h4>Example</h4>
+      <div class="table-wrap">
+        <table>
+          <tr><th>Job</th><th>Deadline</th><th>Profit</th><th>Assigned to slot</th></tr>
+          <tr><td>J1</td><td>2</td><td>100</td><td>Slot 2 ✓</td></tr>
+          <tr><td>J2</td><td>1</td><td>19</td><td>Slot 1 ✓</td></tr>
+          <tr><td>J3</td><td>2</td><td>27</td><td>No slot ≤ 2 available ✗</td></tr>
+          <tr><td>J4</td><td>1</td><td>25</td><td>No slot ≤ 1 available ✗</td></tr>
+        </table>
+      </div>
+      <p>Selected: J1 (profit 100) + J2 (profit 19) = 119 total profit.</p>
+      <div class="tip">From your paper Q10: A fruit vendor minimising perishing loss → use Job Sequencing (each fruit has a deadline = perish date, profit = selling price). Answer: B.</div>
+    </div>
+
+    <div class="subsection" id="t3-knapsack">
+      <h3>3.7 · Fractional Knapsack</h3>
+      <p>Given items with weights and values, and a knapsack of capacity W, maximise total value. You CAN take fractions of items.</p>
+
+      <div class="concept-box blue">
+        <div class="concept-label">Algorithm</div>
+        <div class="steps">
+          <div class="step"><div class="step-num">1</div><div class="step-body">Calculate <strong>value/weight ratio</strong> for each item.</div></div>
+          <div class="step"><div class="step-num">2</div><div class="step-body">Sort items by ratio in <strong>descending order</strong>.</div></div>
+          <div class="step"><div class="step-num">3</div><div class="step-body">Take as much as possible of highest-ratio item. If it fits completely, take all. Else take the fraction that fills capacity.</div></div>
+          <div class="step"><div class="step-num">4</div><div class="step-body">Continue until knapsack full.</div></div>
+        </div>
+        <p>Time: O(n log n). <strong>Greedy is OPTIMAL</strong> for fractional knapsack.</p>
+      </div>
+
+      <div class="concept-box red">
+        <div class="concept-label">0/1 Knapsack — Greedy FAILS</div>
+        <p>In 0/1 knapsack, you must take a whole item or nothing. Greedy fails because taking the highest-ratio item might prevent you from filling the knapsack optimally. Use <strong>Dynamic Programming</strong> for 0/1 knapsack.</p>
+      </div>
+    </div>
+
+    <div class="mcq-section" id="t3-mcq">
+      <div class="mcq-section-title">Practice MCQs — Greedy Algorithms</div>
+
+      <div class="mcq">
+        <div class="mcq-q">Q7. Activity selection problem selects the ______ size subset of ______.</div>
+        <div class="mcq-opts">
+          <div class="opt"><span class="label">A</span> Minimum, Mutually Compatible Activities</div>
+          <div class="opt correct"><span class="label">B</span> Maximum, Mutually Compatible Activities</div>
+          <div class="opt"><span class="label">C</span> Minimum, Mutually Incompatible Activities</div>
+          <div class="opt"><span class="label">D</span> Maximum, Mutually Incompatible Activities</div>
+        </div>
+        <div class="mcq-answer">
+          <div class="ans-label">Answer: B · From your previous paper Q7</div>
+          <p>The goal is to find the MAXIMUM number of activities that can be performed without conflicts. "Mutually compatible" means no two selected activities overlap in time. We want as many as possible — maximum. The word "minimum" would mean we want the fewest activities, which is trivially 0 (just pick nothing). "Incompatible" activities conflict — we never want to select conflicting activities.</p>
+        </div>
+      </div>
+
+      <div class="mcq">
+        <div class="mcq-q">Q8. Coins available: {1, 3, 4}. For which sum does the greedy algorithm give an optimal answer?</div>
+        <div class="mcq-opts">
+          <div class="opt"><span class="label">A</span> 6</div>
+          <div class="opt"><span class="label">B</span> 10</div>
+          <div class="opt"><span class="label">C</span> 14</div>
+          <div class="opt correct"><span class="label">D</span> 20</div>
+        </div>
+        <div class="mcq-answer">
+          <div class="ans-label">Answer: D · From your previous paper Q8</div>
+          <p>For amount 20: Greedy picks 4+4+4+4+4 = 5 coins. Optimal is also 5 coins (no way to do better — 20/4 = 5 exactly). For 6: Greedy gives 4+1+1=3 coins but optimal is 3+3=2 coins — fails. For 10: Greedy gives 4+4+1+1=4 but optimal is 4+3+3=3 — fails. For 14: Greedy gives 4+4+4+1+1=5 but optimal is 4+4+3+3=4 — fails. Only 20 is a multiple of 4, so greedy works perfectly.</p>
+        </div>
+      </div>
+
+      <div class="mcq">
+        <div class="mcq-q">Q9. A fruit vendor wants to minimise loss from perishing fruits. Which approach should be used?</div>
+        <div class="mcq-opts">
+          <div class="opt"><span class="label">A</span> Activity Selection</div>
+          <div class="opt correct"><span class="label">B</span> Job Sequencing</div>
+          <div class="opt"><span class="label">C</span> Fractional Knapsack</div>
+          <div class="opt"><span class="label">D</span> Coin Change</div>
+        </div>
+        <div class="mcq-answer">
+          <div class="ans-label">Answer: B · From your previous paper Q10</div>
+          <p>Each fruit is a "job": it has a deadline (when it perishes) and a value/profit (selling price). Job sequencing maximises total profit from selling items before their deadlines. Activity selection maximises number of activities (not profit — wrong objective). Fractional knapsack deals with weight capacity, not time deadlines. Coin change is about making exact change — completely irrelevant.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <hr class="divider">
+
+
+  <!-- ════════════════════════════════════════════
+       TOPIC 4 — DYNAMIC PROGRAMMING
+  ════════════════════════════════════════════ -->
+  <section class="topic-section" id="t4">
+    <div class="topic-header">
+      <div class="topic-num">04</div>
+      <div>
+        <h2>Dynamic Programming</h2>
+        <p>Matrix chain, 0/1 knapsack, LCS, max independent set, Kadane's algorithm</p>
+      </div>
+    </div>
+
+    <div class="subsection" id="t4-method">
+      <h3>4.1 · General Method</h3>
+      <p>Dynamic Programming (DP) solves problems by breaking them into subproblems, solving each subproblem once, and storing results in a table to avoid repeated computation.</p>
+
+      <div class="two-col">
+        <div class="concept-box blue">
+          <div class="concept-label">Property 1: Optimal Substructure</div>
+          <p>An optimal solution to the problem contains optimal solutions to subproblems.<br><br>
+          Example: Shortest path A→C through B uses the shortest path A→B and shortest B→C.</p>
+        </div>
+        <div class="concept-box purple">
+          <div class="concept-label">Property 2: Overlapping Subproblems</div>
+          <p>The same subproblems are solved multiple times in a naive recursive solution.<br><br>
+          Example: Fibonacci — fib(5) calls fib(4) and fib(3). fib(4) also calls fib(3). fib(3) computed twice!</p>
+        </div>
+      </div>
+
+      <div class="two-col">
+        <div class="concept-box green">
+          <div class="concept-label">Approach 1: Memoisation (Top-Down)</div>
+          <p>Write recursive solution. Add a cache (usually a hash map or array). Before computing, check if result already in cache. If yes, return cached value.</p>
+          <p>Natural to write. Uses recursion call stack.</p>
+        </div>
+        <div class="concept-box teal">
+          <div class="concept-label">Approach 2: Tabulation (Bottom-Up)</div>
+          <p>Fill a table starting from smallest subproblems up to the full problem. No recursion needed — iterate.</p>
+          <p>More space-efficient. No stack overflow risk. Usually faster in practice.</p>
+        </div>
+      </div>
+
+      <div class="tip">Both approaches give the same time complexity. DP trades space (the table) for time (no re-computation). This is the classic space-time trade-off.</div>
+    </div>
+
+    <div class="subsection" id="t4-mcm">
+      <h3>4.2 · Matrix Chain Multiplication</h3>
+      <p>Given a chain of matrices A₁ × A₂ × ... × Aₙ, find the parenthesisation that minimises the number of scalar multiplications. Matrix multiplication is associative, so different parenthesisations give the same result but very different computation costs.</p>
+
+      <div class="concept-box blue">
+        <div class="concept-label">Cost of Multiplying Two Matrices</div>
+        <p>Multiplying matrix A (p × q) with matrix B (q × r) requires exactly <strong>p × q × r</strong> scalar multiplications.</p>
+        <p>The inner dimensions must match — A's columns = B's rows = q.</p>
+      </div>
+
+      <h4>Example from your paper (Q9): A(5×10), B(10×4), C(4×20)</h4>
+      <pre>Option 1: (A×B)×C
+  Step 1: A(5×10) × B(10×4) = 5×10×4 = 200 ops → result: (5×4) matrix
+  Step 2: (5×4) × C(4×20) = 5×4×20 = 400 ops
+  Total: 200 + 400 = <strong>600 ops</strong> ← MINIMUM
+
+Option 2: A×(B×C)
+  Step 1: B(10×4) × C(4×20) = 10×4×20 = 800 ops → result: (10×20) matrix
+  Step 2: A(5×10) × (10×20) = 5×10×20 = 1000 ops
+  Total: 800 + 1000 = <strong>1800 ops</strong> ← MAXIMUM</pre>
+
+      <div class="concept-box amber">
+        <div class="concept-label">From your paper Q9</div>
+        <p>The question asks for the <strong>maximum</strong> number of operations. That is 1800. Answer: C.<br>
+        The minimum is 600. Knowing both is important.</p>
+      </div>
+
+      <h4>General DP Formulation</h4>
+      <p>For chain A₁...Aₙ with dimensions p₀×p₁, p₁×p₂, ..., pₙ₋₁×pₙ:</p>
+      <span class="formula">m[i][j] = min over all k from i to j-1 of { m[i][k] + m[k+1][j] + p[i-1]×p[k]×p[j] }</span>
+      <p>Base case: m[i][i] = 0 (single matrix, no multiplication needed). Fill table diagonally. Time: <strong>O(n³)</strong>, Space: <strong>O(n²)</strong>.</p>
+    </div>
+
+    <div class="subsection" id="t4-knapsack">
+      <h3>4.3 · 0/1 Knapsack Problem</h3>
+      <p>Given n items each with weight wᵢ and value vᵢ, and a knapsack of capacity W. Either take a whole item (1) or skip it (0). Maximise total value without exceeding W.</p>
+
+      <div class="concept-box blue">
+        <div class="concept-label">DP Recurrence</div>
+        <p><code>dp[i][w]</code> = maximum value using items 1..i with capacity w.</p>
+        <p>If wᵢ &gt; w: dp[i][w] = dp[i−1][w] (can't fit item i)<br>
+        Else: dp[i][w] = max(dp[i−1][w], vᵢ + dp[i−1][w−wᵢ])</p>
+        <p>Time: <strong>O(nW)</strong>, Space: O(nW). Called "pseudopolynomial" because W is not polynomial in the input size.</p>
+      </div>
+
+      <h4>Worked Example: Capacity W=5, Items: (w=2,v=3), (w=3,v=4), (w=4,v=5)</h4>
+      <div class="table-wrap">
+        <table class="trace">
+          <tr><th>Item \ W</th><th>0</th><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th></tr>
+          <tr><td>0 (none)</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td></tr>
+          <tr><td>1 (w=2,v=3)</td><td>0</td><td>0</td><td>3</td><td>3</td><td>3</td><td>3</td></tr>
+          <tr><td>2 (w=3,v=4)</td><td>0</td><td>0</td><td>3</td><td>4</td><td>4</td><td>7</td></tr>
+          <tr class="highlight"><td>3 (w=4,v=5)</td><td>0</td><td>0</td><td>3</td><td>4</td><td>5</td><td>7</td></tr>
+        </table>
+      </div>
+      <p>Maximum value = <strong>7</strong> (take item 1: value 3 + item 2: value 4, total weight = 2+3 = 5 ≤ W).</p>
+    </div>
+
+    <div class="subsection" id="t4-lcs">
+      <h3>4.4 · Longest Common Subsequence (LCS)</h3>
+      <p>A subsequence is obtained by deleting zero or more elements from a sequence WITHOUT changing the order. LCS finds the longest subsequence common to two sequences.</p>
+      <p>Example: LCS of "ABCBDAB" and "BDCAB" is "BCAB" — length 4. Note: a subsequence does NOT need to be contiguous.</p>
+
+      <div class="concept-box blue">
+        <div class="concept-label">DP Recurrence</div>
+        <p>Let X = x₁x₂...xₘ, Y = y₁y₂...yₙ. Define c[i][j] = LCS length of X[1..i] and Y[1..j].</p>
+        <p>If i=0 or j=0: c[i][j] = 0<br>
+        If X[i] == Y[j]: c[i][j] = c[i−1][j−1] + 1<br>
+        Else: c[i][j] = max(c[i−1][j], c[i][j−1])</p>
+        <p>Time: <strong>O(mn)</strong>. Answer = c[m][n].</p>
+      </div>
+
+      <h4>Worked trace: X = "QRSTUQRST", Y = "QSBUQCSRSQT" (from your paper Q6)</h4>
+      <p>Fill the table row by row. When characters match, take diagonal+1. Else take max(left, above). Final answer at bottom-right = <strong>7</strong>. Answer: C in your paper.</p>
+
+      <h4>Simple trace: X = "ABCD", Y = "ACDF"</h4>
+      <div class="table-wrap">
+        <table class="trace">
+          <tr><th></th><th>""</th><th>A</th><th>C</th><th>D</th><th>F</th></tr>
+          <tr><td>""</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td></tr>
+          <tr><td>A</td><td>0</td><td>1</td><td>1</td><td>1</td><td>1</td></tr>
+          <tr><td>B</td><td>0</td><td>1</td><td>1</td><td>1</td><td>1</td></tr>
+          <tr><td>C</td><td>0</td><td>1</td><td>2</td><td>2</td><td>2</td></tr>
+          <tr class="highlight"><td>D</td><td>0</td><td>1</td><td>2</td><td>3</td><td>3</td></tr>
+        </table>
+      </div>
+      <p>LCS = 3 (ACD). To recover the actual subsequence, backtrack from bottom-right: where c[i][j] = c[i−1][j−1]+1 (diagonal), that character is in LCS.</p>
+    </div>
+
+    <div class="subsection" id="t4-mis">
+      <h3>4.5 · Maximum Independent Set in a Tree</h3>
+      <p>An independent set is a set of vertices where no two vertices are adjacent (connected by an edge). Find the maximum-size independent set in a tree.</p>
+
+      <div class="concept-box purple">
+        <div class="concept-label">DP on Tree</div>
+        <p>For each vertex v, compute two values:</p>
+        <p><strong>dp[v][1]</strong> = max independent set size in subtree of v, <em>including v</em><br>
+        <strong>dp[v][0]</strong> = max independent set size in subtree of v, <em>excluding v</em></p>
+        <p>If v is included, none of its children can be included:<br>
+        dp[v][1] = 1 + Σ dp[child][0]</p>
+        <p>If v is excluded, each child can be included or excluded:<br>
+        dp[v][0] = Σ max(dp[child][0], dp[child][1])</p>
+        <p>Answer = max(dp[root][0], dp[root][1]). Time: <strong>O(n)</strong></p>
+      </div>
+    </div>
+
+    <div class="subsection" id="t4-kadane">
+      <h3>4.6 · Maximum Sum Subarray — Kadane's Algorithm</h3>
+      <p>Find the contiguous subarray with the largest sum. This is the DP approach — O(n) time, O(1) space.</p>
+
+      <pre><span class="fn">Kadane</span>(A, n):
+    maxSoFar = A[<span class="num">0</span>]
+    maxEndingHere = A[<span class="num">0</span>]
+
+    <span class="kw">for</span> i = <span class="num">1</span> <span class="kw">to</span> n-<span class="num">1</span>:
+        <span class="cm">// Either extend previous subarray, or start fresh from A[i]</span>
+        maxEndingHere = max(A[i], maxEndingHere + A[i])
+        maxSoFar = max(maxSoFar, maxEndingHere)
+
+    <span class="kw">return</span> maxSoFar</pre>
+
+      <h4>Trace on [-2, 1, -3, 4, -1, 2, 1, -5, 4]</h4>
+      <div class="table-wrap">
+        <table class="trace">
+          <tr><th>i</th><th>A[i]</th><th>maxEndingHere</th><th>maxSoFar</th></tr>
+          <tr><td>0</td><td>-2</td><td>-2</td><td>-2</td></tr>
+          <tr><td>1</td><td>1</td><td>max(1, -2+1)=1</td><td>1</td></tr>
+          <tr><td>2</td><td>-3</td><td>max(-3, 1-3)=-2</td><td>1</td></tr>
+          <tr><td>3</td><td>4</td><td>max(4, -2+4)=4</td><td>4</td></tr>
+          <tr><td>4</td><td>-1</td><td>max(-1, 4-1)=3</td><td>4</td></tr>
+          <tr><td>5</td><td>2</td><td>max(2, 3+2)=5</td><td>5</td></tr>
+          <tr class="highlight"><td>6</td><td>1</td><td>max(1, 5+1)=6</td><td>6</td></tr>
+          <tr><td>7</td><td>-5</td><td>max(-5, 6-5)=1</td><td>6</td></tr>
+          <tr><td>8</td><td>4</td><td>max(4, 1+4)=5</td><td>6</td></tr>
+        </table>
+      </div>
+      <p>Maximum sum = <strong>6</strong>, from subarray [4, -1, 2, 1].</p>
+    </div>
+
+    <div class="mcq-section" id="t4-mcq">
+      <div class="mcq-section-title">Practice MCQs — Dynamic Programming</div>
+
+      <div class="mcq">
+        <div class="mcq-q">Q10. Matrices A(5×10), B(10×4), C(4×20). Maximum number of arithmetic operations needed to compute A×B×C is:</div>
+        <div class="mcq-opts">
+          <div class="opt"><span class="label">A</span> 400</div>
+          <div class="opt"><span class="label">B</span> 800</div>
+          <div class="opt correct"><span class="label">C</span> 1800</div>
+          <div class="opt"><span class="label">D</span> 2000</div>
+        </div>
+        <div class="mcq-answer">
+          <div class="ans-label">Answer: C · From your previous paper Q9</div>
+          <p>(A×B)×C: 5×10×4 = 200, then 5×4×20 = 400, total = 600 ops (minimum). A×(B×C): 10×4×20 = 800, then 5×10×20 = 1000, total = 1800 ops (maximum). The question asks for MAXIMUM, which is 1800. D (2000) is a trap — 2000 would require a 5×10×20 multiplication of matrices without the intermediate matrix chain, which is not how matrix multiplication works here.</p>
+        </div>
+      </div>
+
+      <div class="mcq">
+        <div class="mcq-q">Q11. LCS of "QRSTUQRST" and "QSBUQCSRSQT" has length:</div>
+        <div class="mcq-opts">
+          <div class="opt"><span class="label">A</span> 5</div>
+          <div class="opt"><span class="label">B</span> 6</div>
+          <div class="opt correct"><span class="label">C</span> 7</div>
+          <div class="opt"><span class="label">D</span> 9</div>
+        </div>
+        <div class="mcq-answer">
+          <div class="ans-label">Answer: C · From your previous paper Q6</div>
+          <p>Fill the LCS DP table for the two strings. One valid LCS is "QSUQRST" or "QSTUQRT" — 7 characters long. The LCS cannot be 9 (that's the length of the shorter string, impossible unless one is a subsequence of the other). Answer confirmed as 7 by the paper's answer key.</p>
+        </div>
+      </div>
+
+      <div class="mcq">
+        <div class="mcq-q">Q12. Which problem CANNOT be solved optimally by a greedy algorithm?</div>
+        <div class="mcq-opts">
+          <div class="opt"><span class="label">A</span> Fractional Knapsack</div>
+          <div class="opt"><span class="label">B</span> Activity Selection</div>
+          <div class="opt correct"><span class="label">C</span> 0/1 Knapsack</div>
+          <div class="opt"><span class="label">D</span> Huffman Coding</div>
+        </div>
+        <div class="mcq-answer">
+          <div class="ans-label">Answer: C</div>
+          <p>0/1 Knapsack requires Dynamic Programming. Greedy fails because taking the highest value/weight ratio item might prevent us from filling the knapsack efficiently. Example: capacity=4, items (w=3,v=4), (w=2,v=3), (w=2,v=3). Greedy picks item 1 (ratio 4/3=1.33) — total value = 4. But optimal is items 2+3 — total value = 6. All other options (A, B, D) have proven greedy optimal solutions.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <hr class="divider">
+
+
+  <!-- ════════════════════════════════════════════
+       TOPIC 5 — BACKTRACKING
+  ════════════════════════════════════════════ -->
+  <section class="topic-section" id="t5">
+    <div class="topic-header">
+      <div class="topic-num">05</div>
+      <div>
+        <h2>Backtracking</h2>
+        <p>N-queens problem, graph coloring, constraint satisfaction puzzles</p>
+      </div>
+    </div>
+
+    <div class="subsection" id="t5-intro">
+      <h3>5.1 · Introduction to Backtracking</h3>
+
+      <div class="definition">"Backtracking is a systematic way to search through all possible configurations of a search space. If a partial solution cannot possibly lead to a complete solution, abandon it (prune) and try a different path."</div>
+
+      <div class="concept-box blue">
+        <div class="concept-label">The Template</div>
+        <pre><span class="fn">Backtrack</span>(state):
+    <span class="kw">if</span> state is a complete solution:
+        record solution
+        <span class="kw">return</span>
+    <span class="kw">for each</span> choice in validChoices(state):
+        makeChoice(state, choice)
+        <span class="kw">if</span> promising(state):    <span class="cm">// pruning condition</span>
+            Backtrack(state)
+        undoChoice(state, choice)  <span class="cm">// backtrack!</span></pre>
+      </div>
+
+      <div class="table-wrap">
+        <table>
+          <tr><th>Feature</th><th>Backtracking</th><th>Brute Force</th></tr>
+          <tr><td>Approach</td><td>Build solution incrementally; abandon early</td><td>Try every possible combination</td></tr>
+          <tr><td>Pruning</td><td>Yes — abandons invalid partial solutions early</td><td>No — checks all combinations</td></tr>
+          <tr><td>Efficiency</td><td>Much better in practice</td><td>Always worst case</td></tr>
+          <tr><td>State space</td><td>Implicit tree (explored selectively)</td><td>Entire space explored</td></tr>
+        </table>
+      </div>
+    </div>
+
+    <div class="subsection" id="t5-nqueens">
+      <h3>5.2 · N-Queens Problem</h3>
+      <p>Place N queens on an N×N chessboard such that no two queens attack each other. Queens attack along rows, columns, and diagonals.</p>
+
+      <div class="concept-box green">
+        <div class="concept-label">Safety Check for placement at (row, col)</div>
+        <p>A placement is safe if NO previously placed queen is in:</p>
+        <div class="key">The same column: col == prev_col</div>
+        <div class="key">The same diagonal: |row − prev_row| == |col − prev_col|</div>
+        <p>We place one queen per row (top to bottom), so same-row conflicts are impossible by construction.</p>
+      </div>
+
+      <h4>4-Queens: All Solutions</h4>
+      <pre>Solution 1:         Solution 2:
+. Q . .             . . Q .
+. . . Q             Q . . .
+Q . . .             . . . Q
+. . Q .             . Q . .</pre>
+      <p>There are exactly <strong>2 solutions</strong> for 4-queens. (8-queens has 92 solutions.)</p>
+
+      <div class="table-wrap">
+        <table>
+          <tr><th>N</th><th>Number of solutions</th></tr>
+          <tr><td>1</td><td>1</td></tr>
+          <tr><td>4</td><td>2</td></tr>
+          <tr><td>5</td><td>10</td></tr>
+          <tr><td>6</td><td>4</td></tr>
+          <tr><td>8</td><td>92</td></tr>
+        </table>
+      </div>
+
+      <div class="warn">N=2 and N=3 have ZERO solutions — no arrangement of 2 or 3 queens on a 2×2 or 3×3 board avoids attacks.</div>
+    </div>
+
+    <div class="subsection" id="t5-coloring">
+      <h3>5.3 · Graph Coloring</h3>
+      <p>Assign colors to vertices of a graph such that no two adjacent vertices share the same color. The minimum number of colors needed is the <strong>chromatic number χ(G)</strong>.</p>
+
+      <div class="concept-box blue">
+        <div class="concept-label">Key Chromatic Number Facts</div>
+        <div class="key">Complete graph Kₙ: χ = n (each vertex adjacent to all others)</div>
+        <div class="key">Bipartite graph: χ = 2 (vertices split into 2 groups, edges only between groups)</div>
+        <div class="key">Cycle of EVEN length (C₄, C₆, ...): χ = 2 (can 2-colour alternately)</div>
+        <div class="key">Cycle of ODD length (C₃, C₅, C₇, ...): χ = 3 (odd cycles need 3 colours)</div>
+        <div class="key">Tree: χ = 2 (all trees are bipartite)</div>
+        <div class="key">Four Color Theorem: Any planar graph can be coloured with ≤ 4 colors</div>
+      </div>
+
+      <h4>Why odd cycles need 3 colors — C₅ example</h4>
+      <pre>Vertices: A-B-C-D-E-A (pentagon)
+Try 2 colors:
+A=Red, B=Blue, C=Red, D=Blue, E=?
+E is adjacent to D(Blue) and A(Red)
+→ E needs a THIRD color!
+∴ χ(C₅) = 3</pre>
+
+      <div class="concept-box teal">
+        <div class="concept-label">Backtracking Algorithm for Graph Coloring</div>
+        <div class="steps">
+          <div class="step"><div class="step-num">1</div><div class="step-body">Try assigning color 1 to vertex 1.</div></div>
+          <div class="step"><div class="step-num">2</div><div class="step-body">For the next vertex, try the lowest-numbered color not used by any neighbour.</div></div>
+          <div class="step"><div class="step-num">3</div><div class="step-body">If no valid color exists within k colors → backtrack to previous vertex and try next color.</div></div>
+          <div class="step"><div class="step-num">4</div><div class="step-body">If all vertices are colored → solution found.</div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="mcq-section" id="t5-mcq">
+      <div class="mcq-section-title">Practice MCQs — Backtracking</div>
+
+      <div class="mcq">
+        <div class="mcq-q">Q13. How many solutions exist for the 4-queens problem?</div>
+        <div class="mcq-opts">
+          <div class="opt"><span class="label">A</span> 1</div>
+          <div class="opt correct"><span class="label">B</span> 2</div>
+          <div class="opt"><span class="label">C</span> 4</div>
+          <div class="opt"><span class="label">D</span> 8</div>
+        </div>
+        <div class="mcq-answer">
+          <div class="ans-label">Answer: B</div>
+          <p>Exactly 2 distinct solutions exist for placing 4 queens on a 4×4 board with no attacks. Both solutions are reflections of each other across the board's vertical axis. The solutions have queens at columns [2,4,1,3] and [3,1,4,2] (1-indexed). A common wrong answer is 8 — that's confusing with some rotations being counted separately, but there are only 2 fundamentally distinct arrangements.</p>
+        </div>
+      </div>
+
+      <div class="mcq">
+        <div class="mcq-q">Q14. A graph G is a cycle with 7 vertices (C₇). What is its chromatic number?</div>
+        <div class="mcq-opts">
+          <div class="opt"><span class="label">A</span> 2</div>
+          <div class="opt correct"><span class="label">B</span> 3</div>
+          <div class="opt"><span class="label">C</span> 4</div>
+          <div class="opt"><span class="label">D</span> 7</div>
+        </div>
+        <div class="mcq-answer">
+          <div class="ans-label">Answer: B</div>
+          <p>C₇ is an odd cycle (7 is odd). ALL odd cycles require exactly 3 colors — no fewer, no more. Proof: In a cycle, you alternate colors. With 2 colors: A-B-A-B-A-B-A. But A(vertex 7) is adjacent to B(vertex 6) AND A(vertex 1) — conflict! So 2 colors impossible. With 3: A-B-A-B-A-B-C — works. χ(C₇) = 3. Even cycles (C₄, C₆, C₈) need only 2 colors.</p>
+        </div>
+      </div>
+
+      <div class="mcq">
+        <div class="mcq-q">Q15. In N-queens backtracking, a queen placed at (r, c) conflicts with a queen at (r₁, c₁) if:</div>
+        <div class="mcq-opts">
+          <div class="opt correct"><span class="label">A</span> c == c₁ OR |r − r₁| == |c − c₁|</div>
+          <div class="opt"><span class="label">B</span> r == r₁ OR c == c₁</div>
+          <div class="opt"><span class="label">C</span> |r − r₁| == |c − c₁| only</div>
+          <div class="opt"><span class="label">D</span> r + c == r₁ + c₁</div>
+        </div>
+        <div class="mcq-answer">
+          <div class="ans-label">Answer: A</div>
+          <p>Since we place one queen per row (rows are all different by construction), we only need to check: (1) Same column: c == c₁, and (2) Same diagonal: the diagonal condition |r−r₁| == |c−c₁| — the row and column differences are equal in magnitude for diagonal attacks. Option B would check same row too, but that's already guaranteed impossible by our placement strategy. Option D (r+c == r₁+c₁) only catches one diagonal direction.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <hr class="divider">
+
+
+  <!-- ════════════════════════════════════════════
+       TOPIC 6 — GRAPHS & ALGORITHMS
+  ════════════════════════════════════════════ -->
+  <section class="topic-section" id="t6">
+    <div class="topic-header">
+      <div class="topic-num">06</div>
+      <div>
+        <h2>Graphs &amp; Algorithms</h2>
+        <p>Euler/Hamiltonian paths, topological sort, SCC, Ford-Fulkerson max flow</p>
+      </div>
+    </div>
+
+    <div class="subsection" id="t6-intro">
+      <h3>6.1 · Graph Basics</h3>
+      <p>A graph G = (V, E) consists of vertices V and edges E. Understanding graph representations is essential.</p>
+
+      <div class="two-col">
+        <div class="concept-box blue">
+          <div class="concept-label">Adjacency Matrix</div>
+          <p>Matrix A where A[i][j] = 1 if edge (i,j) exists, else 0.</p>
+          <p><strong>Degree of vertex i</strong> = sum of row i (for undirected graphs).<br>
+          Space: O(V²). Edge lookup: O(1). Enumerate neighbours: O(V).</p>
+        </div>
+        <div class="concept-box green">
+          <div class="concept-label">Adjacency List</div>
+          <p>Array of linked lists. List[i] contains all neighbours of vertex i.</p>
+          <p>Space: O(V+E). Edge lookup: O(degree). Enumerate neighbours: O(degree). Better for sparse graphs.</p>
+        </div>
+      </div>
+
+      <h4>Reading degree from adjacency matrix (critical for Euler circuits)</h4>
+      <p>In the adjacency matrix, the <strong>degree of vertex i = sum of row i</strong> (for undirected graphs, where A is symmetric).</p>
+    </div>
+
+    <div class="subsection" id="t6-euler">
+      <h3>6.2 · Euler Graphs — Most Tested in Your Exam</h3>
+
+      <div class="definition">"An Euler Circuit is a closed walk that visits every EDGE of the graph exactly once and returns to the starting vertex."</div>
+
+      <div class="concept-box red">
+        <div class="concept-label">THE Most Important Condition — Memorise This</div>
+        <p><strong>Euler Circuit exists if and only if:</strong></p>
+        <div class="key">The graph is connected (every vertex reachable from every other)</div>
+        <div class="key">Every vertex has EVEN degree</div>
+        <p><br><strong>Euler Path (not circuit) exists if and only if:</strong></p>
+        <div class="key">Exactly 2 vertices have ODD degree (path starts at one and ends at the other)</div>
+        <div class="key">The graph is connected</div>
+      </div>
+
+      <h4>From your paper Q4 — Reading an adjacency matrix</h4>
+      <p>Given matrix for graph with vertices A, B, C, D, E, F:</p>
+      <pre>     A  B  C  D  E  F
+A  [ 0  1  0  1  0  0 ]  → degree = 1+1 = 2 (even)
+B  [ 1  0  1  0  0  0 ]  → degree = 1+1 = 2 (even)
+C  [ 0  1  0  1  0  1 ]  → degree = 1+1+1 = 3 (ODD)
+D  [ 1  0  1  0  1  0 ]  → degree = 1+1+1 = 3 (ODD)
+E  [ 0  0  0  1  0  1 ]  → degree = 1+1 = 2 (even)
+F  [ 0  0  1  0  1  0 ]  → degree = 1+1 = 2 (even)</pre>
+      <p>Vertices C and D have odd degree → <strong>No Euler Circuit</strong>. Answer: D from your paper.</p>
+
+      <h4>Hierholzer's Algorithm — Find Euler Circuit</h4>
+      <div class="concept-box teal">
+        <div class="concept-label">Algorithm Steps</div>
+        <div class="steps">
+          <div class="step"><div class="step-num">1</div><div class="step-body">Start at any vertex. Follow edges (deleting used edges) until you return to the start — this forms an initial circuit.</div></div>
+          <div class="step"><div class="step-num">2</div><div class="step-body">Find any vertex on the current circuit that still has unused edges.</div></div>
+          <div class="step"><div class="step-num">3</div><div class="step-body">Start a new sub-circuit from that vertex.</div></div>
+          <div class="step"><div class="step-num">4</div><div class="step-body">Splice the sub-circuit into the main circuit at the vertex where they share.</div></div>
+          <div class="step"><div class="step-num">5</div><div class="step-body">Repeat until all edges used.</div></div>
+        </div>
+        <p>Critical: the initial circuit chosen MUST be a valid closed walk. A path that doesn't return to its start is INVALID as an initial circuit.</p>
+      </div>
+
+      <div class="concept-box amber">
+        <div class="concept-label">From your paper Q5 — Valid vs Invalid Initial Circuits</div>
+        <p>For graph in Fig.2 with vertices R, S, T, U, V, W, X, Y, Z, the circuit that CANNOT be chosen initially by Hierholzer's is one that does not form a valid closed cycle using only existing edges. Option B (YXZYUVWUY) is the answer — it's not a valid initial circuit because YXZY uses edge X-Z which may not exist, or the path doesn't properly use available edges. Answer: B.</p>
+      </div>
+    </div>
+
+    <div class="subsection" id="t6-hamilton">
+      <h3>6.3 · Hamiltonian Paths &amp; Circuits</h3>
+
+      <div class="definition">"A Hamiltonian Circuit visits every VERTEX exactly once and returns to the start. A Hamiltonian Path visits every vertex exactly once but doesn't need to return."</div>
+
+      <div class="two-col">
+        <div class="concept-box amber">
+          <div class="concept-label">Key Difference from Euler</div>
+          <p><strong>Euler</strong> = every EDGE once.<br>
+          <strong>Hamiltonian</strong> = every VERTEX once.<br><br>
+          There is NO simple necessary-and-sufficient condition for Hamiltonian circuits (unlike Euler). Determining if one exists is NP-complete.</p>
+        </div>
+        <div class="concept-box blue">
+          <div class="concept-label">Dirac's Sufficient Condition</div>
+          <p>If every vertex has degree ≥ n/2 (where n = number of vertices), a Hamiltonian circuit exists.</p>
+          <p>This is a SUFFICIENT condition, not necessary — Hamiltonian circuits can exist even if Dirac's condition fails.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="subsection" id="t6-topo">
+      <h3>6.4 · Topological Sort</h3>
+      <p>A topological ordering of a DAG (Directed Acyclic Graph) is a linear ordering of its vertices such that for every directed edge u → v, vertex u comes before v.</p>
+
+      <div class="warn">Topological sort is only defined for DAGs. If the graph has a cycle, no topological ordering exists (cycle creates contradiction: A before B before C before A?)</div>
+
+      <div class="two-col">
+        <div class="concept-box blue">
+          <div class="concept-label">DFS-Based Algorithm (Tarjan)</div>
+          <div class="steps">
+            <div class="step"><div class="step-num">1</div><div class="step-body">Run DFS on graph.</div></div>
+            <div class="step"><div class="step-num">2</div><div class="step-body">When a vertex FINISHES (all its DFS subtree explored), push it to a stack.</div></div>
+            <div class="step"><div class="step-num">3</div><div class="step-body">Pop all from stack → topological order.</div></div>
+          </div>
+          <p>Time: O(V+E)</p>
+        </div>
+        <div class="concept-box green">
+          <div class="concept-label">Kahn's BFS Algorithm</div>
+          <div class="steps">
+            <div class="step"><div class="step-num">1</div><div class="step-body">Compute in-degree for all vertices.</div></div>
+            <div class="step"><div class="step-num">2</div><div class="step-body">Add all zero in-degree vertices to queue.</div></div>
+            <div class="step"><div class="step-num">3</div><div class="step-body">Dequeue vertex, add to result, reduce in-degree of its neighbours by 1. If a neighbour hits 0 in-degree, enqueue it.</div></div>
+            <div class="step"><div class="step-num">4</div><div class="step-body">Repeat until queue empty.</div></div>
+          </div>
+          <p>Time: O(V+E). If result has fewer than V vertices → graph has a cycle.</p>
+        </div>
+      </div>
+
+      <h4>Applications of Topological Sort</h4>
+      <div class="key">Build systems: compile files in correct dependency order</div>
+      <div class="key">Course prerequisites: which course must be taken first</div>
+      <div class="key">Task scheduling with dependencies</div>
+    </div>
+
+    <div class="subsection" id="t6-scc">
+      <h3>6.5 · Strongly Connected Components (SCC)</h3>
+
+      <div class="definition">"A Strongly Connected Component is a maximal set of vertices such that every vertex in the set is reachable from every other vertex in the set."</div>
+
+      <div class="concept-box purple">
+        <div class="concept-label">Kosaraju's Algorithm — O(V+E)</div>
+        <div class="steps">
+          <div class="step"><div class="step-num">1</div><div class="step-body"><strong>First DFS:</strong> Run DFS on original graph. Push vertices to stack in order of finish time.</div></div>
+          <div class="step"><div class="step-num">2</div><div class="step-body"><strong>Transpose:</strong> Reverse all edge directions → get G^T.</div></div>
+          <div class="step"><div class="step-num">3</div><div class="step-body"><strong>Second DFS:</strong> While stack is non-empty, pop vertex. If unvisited in G^T, run DFS from it in G^T. All vertices visited in this DFS = one SCC.</div></div>
+        </div>
+        <p>Intuition: If A→B in original and B→A in transpose, they're in the same SCC.</p>
+      </div>
+
+      <div class="tip">Tarjan's algorithm finds SCCs in a single DFS pass using "low-link" values. Both Kosaraju's and Tarjan's run in O(V+E) time.</div>
+    </div>
+
+    <div class="subsection" id="t6-maxflow">
+      <h3>6.6 · Max Flow — Ford-Fulkerson Algorithm</h3>
+      <p>In a flow network, each edge has a capacity. Find the maximum flow from source s to sink t.</p>
+
+      <div class="concept-box blue">
+        <div class="concept-label">Key Concepts</div>
+        <div class="key"><strong>Residual graph:</strong> After sending flow f along edge (u,v) with capacity c, residual capacity = c−f on forward edge, and f on backward edge (can cancel flow)</div>
+        <div class="key"><strong>Augmenting path:</strong> A path from s to t in the residual graph with positive residual capacity on every edge</div>
+        <div class="key"><strong>Bottleneck:</strong> The minimum residual capacity along an augmenting path — this is how much flow we can push</div>
+      </div>
+
+      <div class="concept-box teal">
+        <div class="concept-label">Ford-Fulkerson Algorithm</div>
+        <div class="steps">
+          <div class="step"><div class="step-num">1</div><div class="step-body">Start with zero flow on all edges.</div></div>
+          <div class="step"><div class="step-num">2</div><div class="step-body">Find an augmenting path from s to t in the residual graph (using DFS or BFS).</div></div>
+          <div class="step"><div class="step-num">3</div><div class="step-body">Find the bottleneck = min capacity along this path.</div></div>
+          <div class="step"><div class="step-num">4</div><div class="step-body">Update: add bottleneck to forward edges, subtract from backward edges in residual graph.</div></div>
+          <div class="step"><div class="step-num">5</div><div class="step-body">Repeat until no augmenting path exists.</div></div>
+        </div>
+        <p><strong>Time:</strong> O(E × max_flow) for DFS-based. O(VE²) for Edmonds-Karp (BFS-based).</p>
+      </div>
+
+      <div class="concept-box red">
+        <div class="concept-label">Max-Flow Min-Cut Theorem — Always Tested</div>
+        <p>The maximum value of flow from s to t equals the minimum cut capacity separating s from t.</p>
+        <p>A <strong>cut</strong> is a partition of vertices into two sets S (containing s) and T (containing t). The cut capacity = sum of capacities of edges going from S to T.</p>
+        <p>This theorem means: if you find max flow = 10, then min cut = 10 as well. <strong>Always equal.</strong></p>
+      </div>
+    </div>
+
+    <div class="mcq-section" id="t6-mcq">
+      <div class="mcq-section-title">Practice MCQs — Graphs &amp; Algorithms</div>
+
+      <div class="mcq">
+        <div class="mcq-q">Q16. An undirected graph has vertices with degrees 3, 2, 3, 4, 2, 2. Choose the correct statement about Euler circuits.</div>
+        <div class="mcq-opts">
+          <div class="opt"><span class="label">A</span> Euler circuit exists since sum of degrees = 16 (even)</div>
+          <div class="opt correct"><span class="label">B</span> No Euler circuit since two vertices have odd degree</div>
+          <div class="opt"><span class="label">C</span> Euler circuit exists since average degree &gt; 2</div>
+          <div class="opt"><span class="label">D</span> No Euler circuit since the graph is not complete</div>
+        </div>
+        <div class="mcq-answer">
+          <div class="ans-label">Answer: B · Same concept as Q4 in your paper</div>
+          <p>Two vertices have degree 3 (odd). For an Euler circuit, ALL vertices must have even degree — no exceptions. The sum of degrees being even is always true by handshaking lemma (every edge contributes 2 to the sum), so option A's reasoning is wrong. Being complete or having high average degree is irrelevant. Exactly 2 odd-degree vertices means an Euler PATH (not circuit) exists between those two vertices.</p>
+        </div>
+      </div>
+
+      <div class="mcq">
+        <div class="mcq-q">Q17. In Ford-Fulkerson, the maximum flow found is 15. What is the minimum cut capacity?</div>
+        <div class="mcq-opts">
+          <div class="opt"><span class="label">A</span> Less than 15</div>
+          <div class="opt"><span class="label">B</span> Greater than 15</div>
+          <div class="opt correct"><span class="label">C</span> Exactly 15</div>
+          <div class="opt"><span class="label">D</span> Cannot be determined without knowing the graph</div>
+        </div>
+        <div class="mcq-answer">
+          <div class="ans-label">Answer: C</div>
+          <p>The Max-Flow Min-Cut Theorem states that the maximum flow value equals the capacity of the minimum cut — always, exactly. This is not an approximation. If max flow = 15, then min cut = 15. No further information about the graph is needed. This theorem is one of the most fundamental results in combinatorial optimisation.</p>
+        </div>
+      </div>
+
+      <div class="mcq">
+        <div class="mcq-q">Q18. Which statement correctly distinguishes Euler and Hamiltonian paths?</div>
+        <div class="mcq-opts">
+          <div class="opt"><span class="label">A</span> Euler path visits every vertex once; Hamiltonian visits every edge once</div>
+          <div class="opt correct"><span class="label">B</span> Euler path visits every edge once; Hamiltonian visits every vertex once</div>
+          <div class="opt"><span class="label">C</span> Both visit every vertex and every edge exactly once</div>
+          <div class="opt"><span class="label">D</span> Hamiltonian circuit existence can be determined in polynomial time</div>
+        </div>
+        <div class="mcq-answer">
+          <div class="ans-label">Answer: B</div>
+          <p>Euler path/circuit: every EDGE visited exactly once (vertices may be revisited). Hamiltonian path/circuit: every VERTEX visited exactly once (some edges may not be used). Option D is false — determining whether a Hamiltonian circuit exists is NP-complete, meaning no known polynomial-time algorithm exists. In contrast, Euler circuit existence is checkable in O(V+E) by checking degree parity.</p>
+        </div>
+      </div>
+
+      <div class="mcq">
+        <div class="mcq-q">Q19. Topological sort can be applied to which type of graph?</div>
+        <div class="mcq-opts">
+          <div class="opt"><span class="label">A</span> Any undirected graph</div>
+          <div class="opt"><span class="label">B</span> Any directed graph</div>
+          <div class="opt correct"><span class="label">C</span> Directed Acyclic Graph (DAG) only</div>
+          <div class="opt"><span class="label">D</span> Complete graph only</div>
+        </div>
+        <div class="mcq-answer">
+          <div class="ans-label">Answer: C</div>
+          <p>Topological sort requires the graph to be directed (otherwise "before/after" relationships don't exist) AND acyclic (a cycle creates a contradiction: A must come before B, B before C, C before A — impossible). Kahn's algorithm detects cycles: if fewer than V vertices are output, a cycle exists. Directed graphs with cycles — called just "digraphs" — cannot be topologically sorted.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <hr class="divider">
+
+  <!-- FINAL CHEATSHEET -->
+  <section class="topic-section" id="cheatsheet">
+    <div class="topic-header">
+      <div class="topic-num">★</div>
+      <div>
+        <h2>Last-Hour Cheat Sheet</h2>
+        <p>Everything in one place — review this right before the exam</p>
+      </div>
+    </div>
+
+    <div class="table-wrap">
+      <table>
+        <tr><th>Topic</th><th>Core fact</th><th>Common trap</th></tr>
+        <tr>
+          <td><strong>Master Theorem</strong></td>
+          <td>Compare f(n) with n^(log_b a). Equal → multiply by log n.</td>
+          <td>Forgetting it doesn't apply to T(n)=T(n−1)+... form</td>
+        </tr>
+        <tr>
+          <td><strong>Merge sort</strong></td>
+          <td>Always Θ(n log n). Stable. O(n) space.</td>
+          <td>Confusing with quicksort worst case</td>
+        </tr>
+        <tr>
+          <td><strong>Quick sort</strong></td>
+          <td>Avg Θ(n log n), Worst Θ(n²). In-place. Not stable.</td>
+          <td>Forgetting worst case is sorted input with bad pivot</td>
+        </tr>
+        <tr>
+          <td><strong>Binary search pair &gt;x</strong></td>
+          <td>O(1) — just check two largest elements.</td>
+          <td>Thinking it's O(n) or O(log n)</td>
+        </tr>
+        <tr>
+          <td><strong>Activity selection</strong></td>
+          <td>Sort by FINISH time. Select earliest-finishing compatible.</td>
+          <td>Sorting by start time or duration</td>
+        </tr>
+        <tr>
+          <td><strong>Coin change</strong></td>
+          <td>Greedy fails for {1,3,4}. Amount 6: optimal=2 coins, greedy=3.</td>
+          <td>Assuming greedy always works</td>
+        </tr>
+        <tr>
+          <td><strong>Huffman coding</strong></td>
+          <td>Lowest freq → deepest node → longest code.</td>
+          <td>Confusing which freq gets which code length</td>
+        </tr>
+        <tr>
+          <td><strong>Job sequencing</strong></td>
+          <td>Sort by PROFIT desc. Assign to latest available slot ≤ deadline.</td>
+          <td>Confusing with activity selection (no profit there)</td>
+        </tr>
+        <tr>
+          <td><strong>Matrix chain max</strong></td>
+          <td>A(5×10)B(10×4)C(4×20): max=1800 [A×(B×C)], min=600.</td>
+          <td>Picking min instead of max (question asked for max)</td>
+        </tr>
+        <tr>
+          <td><strong>LCS</strong></td>
+          <td>If chars match → diagonal+1. Else → max(left, above).</td>
+          <td>Confusing LCS (non-contiguous) with Longest Common Substring (contiguous)</td>
+        </tr>
+        <tr>
+          <td><strong>Kadane's</strong></td>
+          <td>maxEndHere = max(A[i], maxEndHere + A[i]). O(n).</td>
+          <td>Forgetting to reinitialise (start fresh) when current sum goes negative</td>
+        </tr>
+        <tr>
+          <td><strong>Euler Circuit</strong></td>
+          <td>ALL vertices must have EVEN degree. Check row sums of adj. matrix.</td>
+          <td>Thinking sum of degrees even → Euler (that's always true — not the condition)</td>
+        </tr>
+        <tr>
+          <td><strong>N-Queens</strong></td>
+          <td>N=4 → 2 solutions. N=8 → 92. No solution for N=2 or N=3.</td>
+          <td>Confusing number of solutions across different N values</td>
+        </tr>
+        <tr>
+          <td><strong>Max-flow min-cut</strong></td>
+          <td>Max flow = min cut. Always exactly equal.</td>
+          <td>Thinking it's an approximation or inequality</td>
+        </tr>
+        <tr>
+          <td><strong>Odd cycles</strong></td>
+          <td>C₃,C₅,C₇,... need 3 colors. Even cycles need 2.</td>
+          <td>Applying bipartite rule to odd cycles</td>
+        </tr>
+        <tr>
+          <td><strong>Topological sort</strong></td>
+          <td>Only for DAGs. Not for undirected or cyclic graphs.</td>
+          <td>Applying to graphs with cycles</td>
+        </tr>
+      </table>
+    </div>
+  </section>
+
+    </div>
+  </main>
+</div>
+<script>
+  // Theme Toggle Logic
+  const themeToggle = document.getElementById('theme-toggle');
+  const sunIcon = themeToggle.querySelector('.sun');
+  const moonIcon = themeToggle.querySelector('.moon');
+  const htmlElement = document.documentElement;
+
+  function setTheme(isDark) {
+    if (isDark) {
+      htmlElement.setAttribute('data-theme', 'dark');
+      sunIcon.style.display = 'none';
+      moonIcon.style.display = 'block';
+      localStorage.setItem('theme', 'dark');
+    } else {
+      htmlElement.removeAttribute('data-theme');
+      sunIcon.style.display = 'block';
+      moonIcon.style.display = 'none';
+      localStorage.setItem('theme', 'light');
+    }
+  }
+
+  // Load saved theme
+  const savedTheme = localStorage.getItem('theme');
+  const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+  setTheme(savedTheme === 'dark' || (!savedTheme && prefersDark));
+
+  themeToggle.addEventListener('click', () => {
+    const isDark = htmlElement.hasAttribute('data-theme');
+    setTheme(!isDark);
+  });
+
+  // Mobile Nav Logic
+  const mobileToggle = document.getElementById('mobile-toggle');
+  const sidebar = document.getElementById('sidebar');
+  const overlay = document.getElementById('overlay');
+
+  function toggleMobileMenu() {
+    sidebar.classList.toggle('open');
+    overlay.classList.toggle('active');
+  }
+
+  mobileToggle.addEventListener('click', toggleMobileMenu);
+  overlay.addEventListener('click', toggleMobileMenu);
+
+  // Close sidebar on link click (mobile)
+  sidebar.querySelectorAll('.nav-link').forEach(link => {
+    link.addEventListener('click', () => {
+      if (window.innerWidth <= 1024) toggleMobileMenu();
+    });
+  });
+
+  // Active Link Highlighting
+  const navLinks = document.querySelectorAll('.nav-link');
+  const sections = document.querySelectorAll('section[id]');
+
+  function updateActiveLink() {
+    let current = '';
+    const scrollPos = window.scrollY + 150;
+
+    sections.forEach(s => {
+      if (scrollPos >= s.offsetTop) {
+        current = s.id;
+      }
+    });
+
+    navLinks.forEach(l => {
+      const href = l.getAttribute('href').substring(1);
+      l.classList.toggle('active', href === current);
+    });
+  }
+
+  window.addEventListener('scroll', updateActiveLink);
+  updateActiveLink(); // Initial check
+</script>
+</body>
+</html>

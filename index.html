@@ -824,6 +824,14 @@
     <a class="nav-link sub" href="#t6-scc">SCC</a>
     <a class="nav-link sub" href="#t6-maxflow">Max Flow</a>
     <a class="nav-link sub" href="#t6-mcq">Practice MCQs</a>
+
+    <a class="nav-link section" href="#t7">07 · Code Laboratory</a>
+    <a class="nav-link sub" href="#code-bsearch">Binary Search</a>
+    <a class="nav-link sub" href="#code-merge">Merge Sort</a>
+    <a class="nav-link sub" href="#code-knapsack">0/1 Knapsack</a>
+    <a class="nav-link sub" href="#code-nqueens">N-Queens</a>
+    <a class="nav-link sub" href="#code-topo">Topological Sort</a>
+    <a class="nav-link sub" href="#code-activity">Activity Selection</a>
   </div>
 </nav>
 
@@ -2152,6 +2160,191 @@ F  [ 0  0  1  0  1  0 ]  → degree = 1+1 = 2 (even)</pre>
           <p>Topological sort requires the graph to be directed (otherwise "before/after" relationships don't exist) AND acyclic (a cycle creates a contradiction: A must come before B, B before C, C before A — impossible). Kahn's algorithm detects cycles: if fewer than V vertices are output, a cycle exists. Directed graphs with cycles — called just "digraphs" — cannot be topologically sorted.</p>
         </div>
       </div>
+    </div>
+  </section>
+
+  <hr class="divider">
+
+  <!-- ════════════════════════════════════════════
+       TOPIC 7 — CODE LABORATORY
+  ════════════════════════════════════════════ -->
+  <section class="topic-section" id="t7">
+    <div class="topic-header">
+      <div class="topic-num">07</div>
+      <div>
+        <h2>Code Laboratory</h2>
+        <p>Ready-to-use C++ implementations and logic breakdowns for key algorithms</p>
+      </div>
+    </div>
+
+    <!-- BINARY SEARCH -->
+    <div class="subsection" id="code-bsearch">
+      <h3>7.1 · Binary Search (Iterative)</h3>
+      <div class="concept-box blue">
+        <div class="concept-label">Logic Breakdown</div>
+        <p><strong>l, r</strong> → search boundaries<br>
+        <strong>mid</strong> → divide search space in half<br><br>
+        If target found at mid → <strong>return index</strong><br>
+        If target larger → <strong>search right half</strong> (l = mid + 1)<br>
+        If target smaller → <strong>search left half</strong> (r = mid - 1)<br><br>
+        Each step halves the array → <strong>Time: O(log n)</strong></p>
+      </div>
+      <pre>int binarySearch(vector&lt;int&gt;&amp; a, int x){
+    int l = 0, r = a.size()-1;
+
+    while(l &lt;= r){
+        int mid = (l + r) / 2;
+
+        if(a[mid] == x)
+            return mid;
+
+        else if(a[mid] &lt; x)
+            l = mid + 1;
+
+        else
+            r = mid - 1;
+    }
+    return -1;
+}</pre>
+    </div>
+
+    <!-- MERGE SORT -->
+    <div class="subsection" id="code-merge">
+      <h3>7.2 · Merge Sort (Merge Logic)</h3>
+      <div class="concept-box green">
+        <div class="concept-label">Logic Breakdown</div>
+        <p><strong>Divide</strong> → split array into halves<br>
+        <strong>Conquer</strong> → recursively sort halves<br>
+        <strong>Merge</strong> → compare and combine sorted elements into a temporary array<br><br>
+        Stable sort, uses extra space → <strong>Time: O(n log n)</strong></p>
+      </div>
+      <pre>void merge(vector&lt;int&gt;&amp; a,int l,int m,int r){
+    vector&lt;int&gt; temp;
+    int i=l,j=m+1;
+
+    while(i&lt;=m &amp;&amp; j&lt;=r){
+        if(a[i]&lt;a[j]) temp.push_back(a[i++]);
+        else temp.push_back(a[j++]);
+    }
+
+    while(i&lt;=m) temp.push_back(a[i++]);
+    while(j&lt;=r) temp.push_back(a[j++]);
+
+    for(int k=l;k&lt;=r;k++)
+        a[k]=temp[k-l];
+}</pre>
+    </div>
+
+    <!-- 0/1 KNAPSACK -->
+    <div class="subsection" id="code-knapsack">
+      <h3>7.3 · 0/1 Knapsack (DP)</h3>
+      <div class="concept-box purple">
+        <div class="concept-label">Logic Breakdown</div>
+        <p><strong>dp[i][w]</strong> → best value using first <code>i</code> items with capacity <code>w</code><br><br>
+        <strong>Include item:</strong> <code>val[i-1] + dp[i-1][w - wt[i-1]]</code><br>
+        <strong>Exclude item:</strong> <code>dp[i-1][w]</code><br><br>
+        Take the maximum of both choices.</p>
+      </div>
+      <pre>int knapsack(vector&lt;int&gt;&amp; wt, vector&lt;int&gt;&amp; val, int W){
+    int n=wt.size();
+    vector&lt;vector&lt;int&gt;&gt; dp(n+1, vector&lt;int&gt;(W+1,0));
+
+    for(int i=1;i&lt;=n;i++){
+        for(int w=0;w&lt;=W;w++){
+            if(wt[i-1]&lt;=w)
+                dp[i][w]=max(dp[i-1][w],
+                    val[i-1]+dp[i-1][w-wt[i-1]]);
+            else
+                dp[i][w]=dp[i-1][w];
+        }
+    }
+    return dp[n][W];
+}</pre>
+    </div>
+
+    <!-- N QUEENS -->
+    <div class="subsection" id="code-nqueens">
+      <h3>7.4 · N-Queens (Backtracking)</h3>
+      <div class="concept-box red">
+        <div class="concept-label">Logic Breakdown</div>
+        <p><strong>isSafe</strong> → check if a queen can be placed at <code>(r, c)</code><br>
+        1. Check the <strong>column</strong> above.<br>
+        2. Check the <strong>left diagonal</strong> above.<br>
+        3. Check the <strong>right diagonal</strong> above.<br><br>
+        If safe → place queen and recurse. If fails → backtrack.</p>
+      </div>
+      <pre>bool isSafe(vector&lt;string&gt;&amp; b,int r,int c,int n){
+    for(int i=0;i&lt;r;i++)
+        if(b[i][c]=='Q') return false;
+
+    for(int i=r-1,j=c-1;i&gt;=0&amp;&amp;j&gt;=0;i--,j--)
+        if(b[i][j]=='Q') return false;
+
+    for(int i=r-1,j=c+1;i&gt;=0&amp;&amp;j&lt;n;i--,j++)
+        if(b[i][j]=='Q') return false;
+
+    return true;
+}</pre>
+    </div>
+
+    <!-- TOPOLOGICAL SORT -->
+    <div class="subsection" id="code-topo">
+      <h3>7.5 · Topological Sort (Kahn's BFS)</h3>
+      <div class="concept-box amber">
+        <div class="concept-label">Logic Breakdown</div>
+        <p><strong>indegree</strong> → count incoming edges for each node<br><br>
+        1. Start with nodes having <strong>0 indegree</strong>.<br>
+        2. Gradually remove edges and update neighbours.<br>
+        3. If a neighbour's indegree becomes 0, enqueue it.<br><br>
+        Used for scheduling in Directed Acyclic Graphs (DAGs).</p>
+      </div>
+      <pre>vector&lt;int&gt; topo(int n, vector&lt;vector&lt;int&gt;&gt;&amp; adj){
+    vector&lt;int&gt; indeg(n,0);
+    for(auto &amp;v:adj)
+        for(int x:v) indeg[x]++;
+
+    queue&lt;int&gt; q;
+    for(int i=0;i&lt;n;i++)
+        if(indeg[i]==0) q.push(i);
+
+    vector&lt;int&gt; res;
+    while(!q.empty()){
+        int u=q.front(); q.pop();
+        res.push_back(u);
+        for(int v:adj[u]){
+            if(--indeg[v]==0)
+                q.push(v);
+        }
+    }
+    return res;
+}</pre>
+    </div>
+
+    <!-- ACTIVITY SELECTION -->
+    <div class="subsection" id="code-activity">
+      <h3>7.6 · Activity Selection (Greedy)</h3>
+      <div class="concept-box teal">
+        <div class="concept-label">Logic Breakdown</div>
+        <p><strong>Greedy Choice</strong> → Sort by <strong>finish time</strong>.<br><br>
+        1. Pick the earliest finishing activity.<br>
+        2. Skip any overlapping activities.<br>
+        3. Local best choices lead to the global maximum subset.</p>
+      </div>
+      <pre>int activity(vector&lt;pair&lt;int,int&gt;&gt;&amp; a){
+    sort(a.begin(),a.end(),
+    [](auto &amp;x,auto &amp;y){
+        return x.second &lt; y.second;
+    });
+
+    int cnt=1,end=a[0].second;
+    for(int i=1;i&lt;a.size();i++){
+        if(a[i].first&gt;=end){
+            cnt++;
+            end=a[i].second;
+        }
+    }
+    return cnt;
+}</pre>
     </div>
   </section>
 
